@@ -10,8 +10,7 @@ const sections = [
   { id: 'projects', label: 'Projects' },
   { id: 'publications', label: 'Publications' },
   { id: 'certifications', label: 'Certifications' },
-  { id: 'awards', label: 'Awards' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'awards', label: 'Awards' }
 ];
 
 const ScrollGuide = () => {
