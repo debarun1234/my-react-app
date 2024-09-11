@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Typed from 'typed.js';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import BackgroundImage from '../assets/bagai.jpg';
+import ProfileImage from '../assets/IMG_1757.jpg';
 
 const Hero = () => {
   const typedElement = useRef(null);
@@ -40,7 +41,7 @@ const Hero = () => {
         height: '100vh', // Full viewport height
       }}>
       <div className="w-32 h-32 mb-4 rounded-full bg-secondary overflow-hidden">
-        <img src="src/assets/IMG_1757.jpg" alt="Profile" className="w-adaptive h-adaptive object-cover" />
+        <img src={ProfileImage} alt="Profile" className="w-adaptive h-adaptive object-cover" />
       </div>
       <h1 className="text-4xl font-bold mb-2">Debarun Ghosh</h1>
       <h2 className="text-xl font-semibold mb-4">
