@@ -1,8 +1,12 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Education = () => {
   return (
-    <section className="py-20 bg-primary text-accent">
+    <motion.section className="py-20 bg-primary text-accent"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay:0.2 }}>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8">Education</h2>
         <div className="space-y-8">
@@ -16,7 +20,7 @@ const Education = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
