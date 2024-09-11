@@ -8,7 +8,7 @@ const Contact = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_USER_ID')
+    emailjs.sendForm('service_a5zs5ji', 'template_t0e4ap4', form.current, 'lW2ZmhmKbSE3i6EyU')
       .then((result) => {
           console.log(result.text);
           alert('Message sent successfully!');
@@ -21,7 +21,6 @@ const Contact = () => {
   const downloadResume = () => {
     window.open('../Debarun Ghosh_Resume.pdf', '_blank');
   };
-  
 
   return (
     <section className="py-20 bg-primary text-accent">
@@ -30,21 +29,27 @@ const Contact = () => {
         <form ref={form} onSubmit={sendEmail} className="space-y-6">
           <input
             type="text"
-            name="user_name"
-            placeholder="Your Name"
+            name="from_name"  // Update name to match EmailJS template
+            placeholder="Your Name (Required)"
             className="w-full px-4 py-2 bg-secondary text-accent rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
           <input
             type="email"
-            name="user_email"
-            placeholder="Your Email"
+            name="from_email"  // Update name to match EmailJS template
+            placeholder="Your Email (Required)"
             className="w-full px-4 py-2 bg-secondary text-accent rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+          <input
+            type="text"
+            name="phone"  // Add the phone field
+            placeholder="Your Phone Number (Optional E.g.: +91 XXXXXXXX)"
+            className="w-full px-4 py-2 bg-secondary text-accent rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           <textarea
-            name="message"
-            placeholder="Your Message"
+            name="message"  // This already matches the template
+            placeholder="Your Message (Required)"
             className="w-full px-4 py-2 bg-secondary text-accent rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows="5"
             required
@@ -89,4 +94,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
