@@ -1,9 +1,13 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Parallax } from 'react-scroll-parallax';
 
 const About = () => {
   return (
-    <section className="relative py-20 bg-primary text-white">
+    <motion.section className="relative py-20 bg-primary text-white" 
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: Parallax * 0.2 }}>
       <Parallax speed={-10}>
         <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url('/path-to-your-background.jpg')` }}></div>
       </Parallax>
@@ -19,8 +23,7 @@ const About = () => {
           <br />I am particularly <span className="gradient-4">passionate about leveraging AI/ML</span> to create <span className="gradient-5">innovative and scalable solutions</span> for industries such as <span className="gradient-5">banking, research, and technology</span>. In addition to technical skills, I bring <span className="gradient-5">strong problem-solving abilities</span> and a <span className="gradient-5">collaborative mindset</span>, which I have demonstrated through working in <span className="gradient-4">multidisciplinary teams</span> and presenting solutions to <span className="gradient-4">technical and non-technical stakeholders</span>.
         </p>
       </div>
-
-    </section>
+    </motion.section>
   );
 };
 
