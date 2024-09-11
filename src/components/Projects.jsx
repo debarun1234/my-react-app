@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -43,8 +44,11 @@ const Projects = () => {
         <h2 className="text-3xl font-bold text-center mb-8">Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <a
+            <motion.a
               key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
               href={project.repoLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -56,7 +60,7 @@ const Projects = () => {
                   <p className="mt-2">{project.description}</p>
                 </div>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

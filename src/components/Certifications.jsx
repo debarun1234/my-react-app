@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const certifications = [
   {
@@ -49,11 +50,16 @@ const Certifications = () => {
         <h2 className="text-3xl font-bold text-center mb-8">Certifications</h2>
         <div className="space-y-8">
           {certifications.map((cert, index) => (
-            <div key={index} className="p-6 bg-secondary rounded-lg shadow-lg">
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="p-6 bg-secondary rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold">{cert.title}</h3>
               <p className="text-sm text-gray-400">{cert.issuer}</p>
               {cert.id && <p className="text-sm text-gray-500">{cert.id}</p>}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

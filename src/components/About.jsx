@@ -8,9 +8,6 @@ const About = () => {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: Parallax * 0.2 }}>
-      <Parallax speed={-10}>
-        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url('/path-to-your-background.jpg')` }}></div>
-      </Parallax>
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-6 text-accent">About Me</h2>
         <p>
