@@ -19,7 +19,7 @@ const Contact = () => {
   };
 
   const downloadResume = () => {
-    window.open('public\Debarun Ghosh_Resume.pdf', '_blank');
+    window.open('../Debarun Ghosh_Resume.pdf', '_blank');
   };
   
 
