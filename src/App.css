@@ -1,0 +1,121 @@
+/* Global Styles */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  color: #f5f5f5;
+  background-color: #0d0d0d;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+/* Specific Component Styling */
+button {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #007acc;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arrow-down {
+  margin-top: 8px; /* Adjust the space between text and arrow */
+}
+
+.scroll-guide-item {
+  position: relative;
+}
+
+.scroll-guide-item .dot {
+  transition: background-color 0.3s ease;
+}
+
+.scroll-guide-item .section-label {
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.scroll-guide-item:hover .section-label {
+  opacity: 1;
+}
+
+.gradient-1 {
+  color: #ffffff; /* Lighter blue */
+}
+
+.gradient-2 {
+  color: #eeeeee; /* Medium blue */
+}
+
+.gradient-3 {
+  color: #df42f4; /* Darker blue */
+}
+
+.gradient-4 {
+  color: #f5d87a; /* Even darker blue */
+}
+
+.gradient-5 {
+  color: #00eeff; /* Most important (darkest) */
+}
