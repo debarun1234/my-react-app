@@ -15,6 +15,8 @@ const sections = [
 
 const ScrollGuide = () => {
   const [activeSection, setActiveSection] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  let hideTimer = null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +38,60 @@ const ScrollGuide = () => {
     };
   }, []);
 
+  // Handle Hover for Desktop/Laptop
+  const handleMouseEnter = () => {
+    clearTimeout(hideTimer); // Clear previous hide timer
+    setIsVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Hide after a delay when mouse leaves
+    hideTimer = setTimeout(() => {
+      setIsVisible(false);
+    }, 2000); // 2 second delay before hiding
+  };
+
+  // Swipe detection for mobile
+  useEffect(() => {
+    let startX = 0;
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+      const touchX = e.touches[0].clientX;
+      if (startX - touchX > 100) {
+        // Swipe left to hide
+        setIsVisible(false);
+      } else if (touchX - startX > 100) {
+        // Swipe right to show
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
+  // Auto-hide after a delay in both desktop and mobile cases
+  useEffect(() => {
+    if (isVisible) {
+      hideTimer = setTimeout(() => {
+        setIsVisible(false);
+      }, 1000); // 5 second delay before hiding
+    }
+
+    return () => {
+      clearTimeout(hideTimer); // Clear timeout if the component unmounts
+    };
+  }, [isVisible]);
+
   const handleClick = (id) => {
     const section = document.getElementById(id);
     if (section) {
@@ -44,28 +100,32 @@ const ScrollGuide = () => {
   };
 
   return (
-    <div className="scroll-guide fixed left-4 top-1/2 transform -translate-y-1/2 z-10 flex flex-col space-y-4">
-      {sections.map((section) => (
-        <div
-          key={section.id}
-          className="scroll-guide-item flex items-center space-x-2 cursor-pointer"
-          onClick={() => handleClick(section.id)}
-        >
+    <>
+      {/* Invisible hover trigger area */}
+      <div
+        className="scroll-guide-trigger"
+        onMouseEnter={handleMouseEnter}
+      ></div>
+
+      {/* Scroll Guide */}
+      <div
+        className={`scroll-guide ${isVisible ? 'visible' : ''}`}
+        onMouseLeave={handleMouseLeave}
+      >
+        {sections.map((section) => (
           <div
-            className={`dot w-4 h-4 rounded-full ${
-              activeSection === section.id ? 'bg-white' : 'bg-gray-500'
-            }`}
-          />
-          <span
-            className={`section-label text-sm text-gray-400 transition-opacity duration-300 ${
-              activeSection === section.id ? 'opacity-100 text-white' : 'opacity-0'
-            }`}
+            key={section.id}
+            className={`scroll-guide-item flex items-center space-x-2 cursor-pointer ${activeSection === section.id ? 'active' : ''}`}
+            onClick={() => handleClick(section.id)}
           >
-            {section.label}
-          </span>
-        </div>
-      ))}
-    </div>
+            <div className={`dot ${activeSection === section.id ? 'bg-white' : 'bg-gray-500'}`} />
+            <span className={`section-label text-sm ${activeSection === section.id ? 'text-white' : 'text-gray-400'}`}>
+              {section.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

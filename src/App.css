@@ -14,48 +14,75 @@ body, html, #root {
   justify-content: center;
 }
 
-/* Utility Classes */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+/* Scroll Guide Styling */
+.scroll-guide {
+  position: fixed;
+  left: 0px; /* Initially hidden off-screen */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none; /* Prevent interaction when hidden */
 }
 
-.text-center {
-  text-align: center;
+.scroll-guide.visible {
+  left: 20px; /* Move into view when visible */
+  opacity: 1;
+  pointer-events: auto; /* Allow interaction when visible */
 }
 
-.mt-4 {
-  margin-top: 1rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
-.mb-8 {
-  margin-bottom: 2rem;
-}
-
-/* Specific Component Styling */
-button {
+/* Hover Trigger Area */
+.scroll-guide-trigger {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 40px; /* Invisible area for hover detection */
+  z-index: 5;
   cursor: pointer;
+}
+
+.scroll-guide-item {
+  margin-bottom: 8px;
+}
+
+.scroll-guide-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #666;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #007acc;
+.scroll-guide-item .section-label {
+  opacity: 0;
+  margin-left: 10px;
+  transition: opacity 0.3s ease;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+.scroll-guide-item:hover .section-label {
+  opacity: 1;
 }
 
-a:hover {
-  text-decoration: underline;
+.scroll-guide-item.active .dot {
+  background-color: #fff; /* Change color when active */
 }
 
+/* Mobile Visibility */
+@media only screen and (max-width: 768px) {
+  .scroll-guide {
+    transform: translateX(-100%); /* Hidden off-screen */
+    transition: transform 0.3s ease;
+  }
+  .scroll-guide.visible {
+    transform: translateX(0); /* Visible when swiped */
+  }
+}
+
+/* Bounce Animation for Scroll Down */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -75,47 +102,17 @@ a:hover {
   transform: translateX(-50%);
   animation: bounce 2s infinite;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.arrow-down {
-  margin-top: 8px; /* Adjust the space between text and arrow */
+/* Utility Classes */
+.text-center {
+  text-align: center;
 }
 
-.scroll-guide-item {
-  position: relative;
+.mt-4 {
+  margin-top: 1rem;
 }
 
-.scroll-guide-item .dot {
-  transition: background-color 0.3s ease;
-}
-
-.scroll-guide-item .section-label {
-  transition: opacity 0.3s ease, color 0.3s ease;
-}
-
-.scroll-guide-item:hover .section-label {
-  opacity: 1;
-}
-
-.gradient-1 {
-  color: #ffffff; /* Lighter blue */
-}
-
-.gradient-2 {
-  color: #eeeeee; /* Medium blue */
-}
-
-.gradient-3 {
-  color: #df42f4; /* Darker blue */
-}
-
-.gradient-4 {
-  color: #f5d87a; /* Even darker blue */
-}
-
-.gradient-5 {
-  color: #00eeff; /* Most important (darkest) */
+.mb-4 {
+  margin-bottom: 1rem;
 }
