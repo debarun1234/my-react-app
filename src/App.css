@@ -1,7 +1,7 @@
 /* Global Styles */
 body, html, #root {
-  margin: 0;
-  padding: 0;
+  margin: auto;
+  padding: auto;
   font-family: 'Roboto', sans-serif;
   color: #f5f5f5;
   background-color: #0d0d0d;
@@ -115,4 +115,25 @@ body, html, #root {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+footer {
+  background-color: #0d0d0d;
+  color: #f5f5f5;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.9rem;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer strong {
+  color: #00eeff; /* Highlight the designer's name and tools */
+}
+
+footer .text-sm {
+  font-size: 0.85rem;
+  color: #999;
 }

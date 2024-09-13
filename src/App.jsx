@@ -11,6 +11,7 @@ import Certifications from './components/Certifications';
 import Awards from './components/Awards';
 import Contact from './components/Contact';
 import ScrollGuide from './components/ScrollGuide'; // Import the ScrollGuide
+import Footer from './components/Footer'; // Import the Footer
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -63,6 +64,7 @@ function App() {
           </section>
         </div>
       </ParallaxProvider>
+      <Footer /> {/* Include Footer at the end */}
     </div>
   );
 }
