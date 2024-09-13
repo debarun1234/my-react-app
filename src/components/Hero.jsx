@@ -44,7 +44,7 @@ const Hero = () => {
         <img src={ProfileImage} alt="Profile" className="w-adaptive h-adaptive object-cover" />
       </div>
       <h1 className="text-4xl font-bold mb-2">Debarun Ghosh</h1>
-      <h2 className="text-xl font-semibold mb-4">
+      <h2 className="text-xl font-semibold mb-4 text-center">
         Site Reliability Engineer | Generative AI Developer | Innovator in Research & Technology
       </h2>
       <div
