@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Typed from 'typed.js';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import BackgroundImage from '../assets/bagai.jpg';
+import BackgroundImage from '../assets/bagai.webp';
 import ProfileImage from '../assets/IMG_1757.jpg';
 
 const Hero = () => {
@@ -30,10 +30,10 @@ const Hero = () => {
 
   return (
     <section
-      className="flex flex-col items-center justify-center min-h-screen bg-primary text-accent relative bg-cover bg-center bg-no-repeat w-full h-full"
+      className="flex flex-col items-center justify-center min-h-screen bg-primary text-blue-300 relative bg-cover bg-center bg-no-repeat w-full h-full"
       style={{
         backgroundImage: `url(${BackgroundImage})`,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
         backgroundBlendMode: 'overlay',
         backgroundSize: 'cover', // Ensure the image covers the entire section
         backgroundPosition: 'center', // Center the image
