@@ -52,14 +52,14 @@ const Contact = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <FaMapMarkerAlt className="text-xl" />
-                <span>Bangalore, Karnataka, 560063</span>
+                <span>Avalahalli, Bangalore, Karnataka, 560064</span>
               </div>
             </div>
             {/* Embed Google Map */}
             <div className="w-full h-64">
               <iframe
                 title="location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.0036220248486!2d77.60014871482266!3d12.970015990849334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1620290d7f1f%3A0x10416a08c579d8e7!2sBengaluru%2C%20Karnataka%20560063!5e0!3m2!1sen!2sin!4v1664501745123!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.3794562430944!2d77.59079601507363!3d13.070579490828956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae19338dd72573%3A0x2556379e25625569!2sAvalahalli%2C%20Bangalore%2C%20Karnataka%20560064!5e0!3m2!1sen!2sin!4v1695381516546!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
