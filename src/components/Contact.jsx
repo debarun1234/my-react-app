@@ -10,6 +10,7 @@ const Contact = () => {
     emailjs.sendForm('service_a5zs5ji', 'template_t0e4ap4', form.current, 'lW2ZmhmKbSE3i6EyU')
       .then((result) => {
           alert('Message sent successfully!');
+          form.current.reset();
       }, (error) => {
           alert('An error occurred, please try again.');
       });
@@ -29,7 +30,7 @@ const Contact = () => {
             <form ref={form} onSubmit={sendEmail} className="space-y-6">
               <input type="text" name="from_name" placeholder="Your Name (Required)" required className="w-full px-4 py-2 bg-secondary text-accent rounded-lg"/>
               <input type="email" name="from_email" placeholder="Your Email (Required)" required className="w-full px-4 py-2 bg-secondary text-accent rounded-lg"/>
-              <input type="text" name="phone" placeholder="Your Phone Number (Optional)" className="w-full px-4 py-2 bg-secondary text-accent rounded-lg"/>
+              <input type="text" name="phone" placeholder="Your Phone Number (Optional E.g.: +91 XXXXXXXX)" className="w-full px-4 py-2 bg-secondary text-accent rounded-lg"/>
               <textarea name="message" placeholder="Your Message (Required)" required rows="4" className="w-full px-4 py-2 bg-secondary text-accent rounded-lg"></textarea>
               <button type="submit" className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">Send Message</button>
             </form>
