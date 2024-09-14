@@ -4,7 +4,7 @@ import { Parallax } from 'react-scroll-parallax';
 
 const About = () => {
   return (
-    <motion.section className="relative py-20 bg-primary text-white" 
+    <motion.section className="relative py-20 bg-primary " 
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: Parallax * 0.2 }}>
