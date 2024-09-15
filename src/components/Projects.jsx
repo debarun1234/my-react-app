@@ -8,14 +8,14 @@ const projects = [
       Enhanced HR Efficiency: AI-driven assistant using LLaMA 3.1 8B for accurate, context-aware HR policy responses.
       User-Friendly Interface: Gradio interface enables easy, natural language access to HR policy information.
     `,
-    repoLink: 'http://bit.ly/4fR2pZ3',
+    repoLink: 'https://bit.ly/4fR2pZ3',
   },
   {
     title: 'Monitoring Vision AI',
     description: `
       It uses a TensorFlow/Keras model to monitor machine status, with a Streamlit interface for real-time predictions.
       The system includes motion detection, status logging, and email alerts, enhancing monitoring capabilities.
-      The project captures video, preprocesses frames, and determines machine status for efficient management.
+      The project captures video, preprocesses frames, and determines machine status for efficient management (Click me).
     `,
     repoLink: 'https://bit.ly/3MgAG6m',
   },
@@ -33,7 +33,7 @@ const projects = [
       Engineered a Python-based ML pipeline using logistic regression and CNN for accuracy.
       Enhanced predictive models, achieving high accuracy validated through ROC analysis. Visualized results with confusion matrices.
     `,
-    repoLink: 'http://bit.ly/3MAhSPZ',
+    repoLink: 'https://bit.ly/3MAhSPZ',
   },
 ];
 
@@ -50,14 +50,12 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               href={project.repoLink}
-              target="_blank"
-              rel="noopener noreferrer"
               className="block transform hover:scale-105 transition duration-300"
             >
-              <div className="bg-primary rounded-lg overflow-hidden shadow-lg">
+              <div className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="p-4">
                   <h3 className="text-xl font-semibold">{project.title}</h3>
-                  <p className="mt-2">{project.description}</p>
+                  <p className="mt-2 text-sm text-black">{project.description}</p>
                 </div>
               </div>
             </motion.a>
