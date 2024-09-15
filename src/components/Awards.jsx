@@ -30,7 +30,7 @@ const Awards = () => {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="p-6 bg-primary rounded-lg shadow-lg text-center">
               <h3 className="text-xl font-semibold">{award.title}</h3>
-              <p className="text-gray-300">{award.event}</p>
+              <p className="text-purple-500">{award.event}</p>
             </motion.div>
           ))}
         </div>
