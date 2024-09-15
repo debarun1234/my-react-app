@@ -84,7 +84,7 @@ const ScrollGuide = () => {
     if (isVisible) {
       hideTimer = setTimeout(() => {
         setIsVisible(false);
-      }, 1000); // 5 second delay before hiding
+      }, 2000); // 5 second delay before hiding
     }
 
     return () => {
@@ -100,12 +100,15 @@ const ScrollGuide = () => {
   };
 
   return (
-    <>
+    <div className="scroll-guide-wrapper">      
       {/* Invisible hover trigger area */}
       <div
         className="scroll-guide-trigger"
         onMouseEnter={handleMouseEnter}
       ></div>
+
+      {/* Pillar Element */}
+      <div className="scroll-guide-pillar"></div>
 
       {/* Scroll Guide */}
       <div
@@ -118,14 +121,14 @@ const ScrollGuide = () => {
             className={`scroll-guide-item flex items-center space-x-2 cursor-pointer ${activeSection === section.id ? 'active' : ''}`}
             onClick={() => handleClick(section.id)}
           >
-            <div className={`dot ${activeSection === section.id ? 'bg-white' : 'bg-gray-500'}`} />
-            <span className={`section-label text-sm ${activeSection === section.id ? 'text-white' : 'text-gray-400'}`}>
+            <div className={`dot ${activeSection === section.id ? 'bg-black' : 'bg-gray-500'}`} />
+            <span className={`section-label text-sm ${activeSection === section.id ? 'text-black' : 'text-gray-400'}`}>
               {section.label}
             </span>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
