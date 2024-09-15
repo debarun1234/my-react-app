@@ -14,6 +14,7 @@ body, html, #root {
   justify-content: center;
 }
 
+
 /* Scroll Guide Styling */
 .scroll-guide {
   position: fixed;
@@ -137,4 +138,25 @@ footer strong {
 footer .text-sm {
   font-size: 0.85rem;
   color: #666;
+}
+
+/* Scroll to Top Button Styling */
+button.fixed {
+  position: fixed;
+  bottom: 2rem; /* Adjust position */
+  right: 2rem;
+  z-index: 10; /* Ensure it's always on top */
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button.fixed:hover {
+  background-color: #0056b3; /* Darken the blue on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+button.fixed svg {
+  width: 24px;
+  height: 24px;
+  fill: white; /* Ensures the arrow is white */
 }

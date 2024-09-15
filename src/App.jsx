@@ -12,6 +12,7 @@ import Awards from './components/Awards';
 import Contact from './components/Contact';
 import ScrollGuide from './components/ScrollGuide'; // Import the ScrollGuide
 import Footer from './components/Footer'; // Import the Footer
+import ScrollToTop from './components/ScrollToTop'; // Import the ScrollToTop
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -64,6 +65,7 @@ function App() {
           </section>
         </div>
       </ParallaxProvider>
+      <ScrollToTop /> {/* Add the ScrollToTop button */}
       <Footer /> {/* Include Footer at the end */}
     </div>
   );
