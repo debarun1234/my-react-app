@@ -57,7 +57,7 @@ const Certifications = () => {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="p-6 bg-secondary rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold">{cert.title}</h3>
-              <p className="text-sm text-gray-400">{cert.issuer}</p>
+              <p className="text-sm text-purple-500">{cert.issuer}</p>
               {cert.id && <p className="text-sm text-gray-500">{cert.id}</p>}
             </motion.div>
           ))}
