@@ -16,7 +16,7 @@ const Education = () => {
             <img src={PurdueLogo} alt="Purdue University Logo" className="w-20 h-15 mr-4" />
             <div className="text-left">
               <h3 className="text-xl font-semibold text-accent">Purdue University</h3>
-              <p className="text-sm">Postgraduate Program in Applied Generative AI Specialization, August 2024</p>
+              <p className="text-sm">Postgraduate Vocational Program in Applied Generative AI Specialization, August 2024</p>
             </div>
           </div>
 
