@@ -9,7 +9,7 @@ const Hero = () => {
 
   useEffect(() => {
     const typed = new Typed(typedElement.current, {
-      strings: ['Gen-AI Enthusiast', 'ML Engineer', 'Full-Stack Developer', 'Researcher', 'Data Analyst'],
+      strings: ['Gen-AI Enthusiast', 'ML Engineer', 'Full-Stack Developer', 'Data Analyst'],
       typeSpeed: 50,
       backSpeed: 25,
       loop: true,
@@ -45,7 +45,7 @@ const Hero = () => {
       </div>
       <h1 className="text-4xl font-bold mb-2">Debarun Ghosh</h1>
       <h2 className="text-xl font-semibold mb-4 text-center">
-        Site Reliability Engineer | Generative AI Developer | Innovator in Research & Technology
+        Software Engineer | Generative AI Developer | Technology Enthusiast
       </h2>
       <div
         ref={typedElement}
