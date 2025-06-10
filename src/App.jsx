@@ -11,6 +11,7 @@ import Certifications from './components/Certifications';
 import Awards from './components/Awards';
 import Contact from './components/Contact';
 import ScrollGuide from './components/ScrollGuide'; // Import the ScrollGuide
+import PrivacyPolicy from "./components/PrivacyPolicy";
 import Footer from './components/Footer'; // Import the Footer
 import ScrollToTop from './components/ScrollToTop'; // Import the ScrollToTop
 
