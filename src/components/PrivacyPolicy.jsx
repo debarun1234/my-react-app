@@ -9,7 +9,7 @@ function PrivacyPolicy() {
       </p>
       <h2>LinkedIn Developer App Notice</h2>
       <p>
-        This application uses LinkedIn integration solely for demonstration purposes as part of my personal portfolio. No personal information or user data is collected, stored, or shared by this application.
+        This application uses LinkedIn integration solely for demonstration purposes as part of my personal portfolio. No personal information or user data is collected, stored, or shared by this [...]
       </p>
       <p>
         If you have any questions about this privacy policy, please contact me via the contact information provided in the portfolio.
