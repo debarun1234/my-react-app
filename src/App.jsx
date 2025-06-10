@@ -11,9 +11,9 @@ import Certifications from './components/Certifications';
 import Awards from './components/Awards';
 import Contact from './components/Contact';
 import ScrollGuide from './components/ScrollGuide'; // Import the ScrollGuide
-import PrivacyPolicy from "./components/PrivacyPolicy";
 import Footer from './components/Footer'; // Import the Footer
 import ScrollToTop from './components/ScrollToTop'; // Import the ScrollToTop
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -28,7 +28,7 @@ const sections = [
   { id: 'contact', label: 'Contact' },
 ];
 
-function App() {
+function MainContent() {
   return (
     <div>
       <ScrollGuide sections={sections} /> {/* Passing the sections */}
@@ -69,6 +69,17 @@ function App() {
       <ScrollToTop /> {/* Add the ScrollToTop button */}
       <Footer /> {/* Include Footer at the end */}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainContent />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
