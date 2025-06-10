@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -8,6 +9,11 @@ const Footer = () => {
       </p>
       <p className="text-sm">
         Created & designed by <strong>Debarun Ghosh</strong> using <strong>Vite</strong> + <strong>ReactJS</strong>.
+      </p>
+      <p className="text-sm mt-2">
+        <Link to="/privacy-policy" style={{ color: "inherit", textDecoration: "underline" }}>
+          Privacy Policy
+        </Link>
       </p>
     </footer>
   );
