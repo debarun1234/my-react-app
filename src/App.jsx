@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ParallaxProvider } from 'react-scroll-parallax';
 import Hero from './components/Hero';
 import About from './components/About';
