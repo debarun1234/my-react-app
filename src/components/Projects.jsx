@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
- // Store your GitHub username and token in environment variables for security
-const GITHUB_USERNAME = process.env.REACT_APP_GITHUB_USERNAME;
-const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+// Store your GitHub username and token in environment variables for security
+const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME;
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+
+console.log('GITHUB_USERNAME:', GITHUB_USERNAME);
+console.log('GITHUB_TOKEN:', GITHUB_TOKEN);
 
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Fetch on mount (browser refresh)
   useEffect(() => {
     const fetchRepos = async () => {
       setLoading(true);
+      setError(null);
       try {
         const res = await fetch(
           `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`,
@@ -23,8 +29,8 @@ const Projects = () => {
           }
         );
         const data = await res.json();
-        // Transform GitHub repo data to match your format
-        const formatted = data.map(repo => ({
+        // Transform and limit to 6 latest repos
+        const formatted = data.slice(0, 6).map(repo => ({
           title: repo.name,
           description: repo.description || 'No description',
           repoLink: repo.html_url,
@@ -32,6 +38,7 @@ const Projects = () => {
         setRepos(formatted);
       } catch (err) {
         setRepos([]);
+        setError('Failed to fetch projects.');
       }
       setLoading(false);
     };
@@ -42,6 +49,7 @@ const Projects = () => {
     <section className="py-20 bg-secondary text-accent">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8">Projects</h2>
+        {error && <div className="text-center text-red-500">{error}</div>}
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : (
