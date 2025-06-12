@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// Store your GitHub username and token in environment variables for security
+// Store your GitHub username in an environment variable for security
 const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME;
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+// const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 
 console.log('GITHUB_USERNAME:', GITHUB_USERNAME);
-console.log('GITHUB_TOKEN:', GITHUB_TOKEN);
-
+// console.log('GITHUB_TOKEN:', GITHUB_TOKEN);
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
@@ -21,12 +20,7 @@ const Projects = () => {
       setError(null);
       try {
         const res = await fetch(
-          `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`,
-          {
-            headers: {
-              Authorization: `token ${GITHUB_TOKEN}`,
-            },
-          }
+          `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`
         );
         const data = await res.json();
         // Transform and limit to 6 latest repos
