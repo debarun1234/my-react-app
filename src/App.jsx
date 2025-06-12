@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ParallaxProvider } from 'react-scroll-parallax';
 import Hero from './components/Hero';
@@ -74,6 +74,14 @@ function MainContent() {
 }
 
 function App() {
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', handleContextMenu);
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
