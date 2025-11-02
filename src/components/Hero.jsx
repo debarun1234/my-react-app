@@ -17,7 +17,7 @@ import Typed from 'typed.js';
 import { FaGithub, FaLinkedin, FaChevronDown } from 'react-icons/fa';
 import { HiSparkles } from 'react-icons/hi';
 import BackgroundImage from '../assets/bagai.webp';
-import ProfileImage from '../assets/IMG_1757.jpg';
+import ProfileImage from '../assets/Debarun Ghosh.jpg';
 
 // Animation keyframes
 const float = keyframes`

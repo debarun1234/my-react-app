@@ -17,14 +17,25 @@ import {
   useColorModeValue,
   useToast,
   AspectRatio,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
+  Badge,
 } from '@chakra-ui/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import emailjs from 'emailjs-com';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaDownload, FaPaperPlane } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaDownload, FaPaperPlane, FaFileAlt } from 'react-icons/fa';
+
+const MotionBox = motion(Box);
 
 const Contact = () => {
   const form = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
   const cardBg = 'rgba(255, 255, 255, 0.05)';
   const inputBg = 'rgba(255, 255, 255, 0.08)';
@@ -56,8 +67,15 @@ const Contact = () => {
       .finally(() => setIsLoading(false));
   };
 
+  const viewResume = () => {
+    onOpen();
+  };
+
   const downloadResume = () => {
-    window.open('/Debarun Ghosh_Resume.pdf', '_blank');
+    const link = document.createElement('a');
+    link.href = '/Debarun Ghosh_Resume.pdf';
+    link.download = 'Debarun_Ghosh_Resume.pdf';
+    link.click();
   };
 
   return (
@@ -174,15 +192,15 @@ const Contact = () => {
 
           {/* Contact Information */}
           <VStack spacing={6} align="stretch">
-            {/* Download Resume Button */}
+            {/* Resume Button */}
             <Button
               size="lg"
-              colorScheme="green"
-              leftIcon={<FaDownload />}
-              onClick={downloadResume}
+              colorScheme="brand"
+              leftIcon={<FaFileAlt />}
+              onClick={viewResume}
               _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }}
             >
-              Download Resume
+              View Resume
             </Button>
 
             {/* Contact Details Cards */}
@@ -196,24 +214,6 @@ const Contact = () => {
                 borderRadius="xl"
                 w="full"
               >
-                <CardBody>
-                  <HStack spacing={4}>
-                    <Flex
-                      w="50px"
-                      h="50px"
-                      bg="brand.500"
-                      borderRadius="lg"
-                      align="center"
-                      justify="center"
-                    >
-                      <Icon as={FaPhone} color="white" boxSize={5} />
-                    </Flex>
-                    <VStack align="start" spacing={0}>
-                      <Text fontSize="sm" color="whiteAlpha.700">Phone</Text>
-                      <Text fontWeight="600" color={textColor}>+91 9742085682</Text>
-                    </VStack>
-                  </HStack>
-                </CardBody>
               </Card>
 
               <Card
@@ -296,6 +296,98 @@ const Contact = () => {
           </VStack>
         </SimpleGrid>
       </Container>
+
+      {/* Resume Modal */}
+      <AnimatePresence>
+        {isOpen && (
+          <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered motionPreset="scale">
+            <ModalOverlay bg="blackAlpha.800" backdropFilter="blur(10px)" />
+            <ModalContent
+              as={motion.div}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.3 }}
+              bg="rgba(26, 32, 44, 0.95)"
+              backdropFilter="blur(20px)"
+              border="1px solid"
+              borderColor="whiteAlpha.200"
+              borderRadius="2xl"
+              maxH="90vh"
+              mx={4}
+            >
+              <ModalCloseButton color="white" />
+              <ModalBody p={8}>
+                <VStack spacing={6}>
+                  <MotionBox
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.4 }}
+                  >
+                    <VStack spacing={2} textAlign="center">
+                      <Heading size="lg" color="white">
+                        Resume
+                      </Heading>
+                      <Text color="brand.300" fontWeight="semibold">
+                        Debarun Ghosh
+                      </Text>
+                      <HStack spacing={2}>
+                        <Badge colorScheme="green" fontSize="sm" px={3} py={1} borderRadius="full">
+                          AI/ML Engineer
+                        </Badge>
+                        <Badge colorScheme="blue" fontSize="sm" px={3} py={1} borderRadius="full">
+                          Data Scientist
+                        </Badge>
+                      </HStack>
+                    </VStack>
+                  </MotionBox>
+                  
+                  <MotionBox
+                    w="full"
+                    h="70vh"
+                    borderRadius="xl"
+                    overflow="hidden"
+                    border="2px solid"
+                    borderColor="brand.400"
+                    boxShadow="0 0 30px var(--chakra-colors-brand-400)"
+                    bg="white"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                  >
+                    <Box
+                      as="iframe"
+                      src="/Debarun Ghosh_Resume.pdf"
+                      w="full"
+                      h="full"
+                      border="none"
+                      title="Debarun Ghosh Resume"
+                    />
+                  </MotionBox>
+                  
+                  <MotionBox
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.4 }}
+                    w="full"
+                  >
+                    <Button
+                      w="full"
+                      size="lg"
+                      colorScheme="green"
+                      leftIcon={<FaDownload />}
+                      onClick={downloadResume}
+                      _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }}
+                    >
+                      Download Resume
+                    </Button>
+                  </MotionBox>
+                </VStack>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        )}
+      </AnimatePresence>
     </Box>
   );
 };

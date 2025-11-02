@@ -118,7 +118,7 @@ const Footer = () => {
                     transition="all 0.3s"
                   />
                 </Link>
-                <Link href="mailto:debarunghoshpersonal@gmail.com">
+                <Link href="mailto:debarun.ghosh.2024@gmail.com">
                   <Icon
                     as={FaEnvelope}
                     boxSize={6}
@@ -188,35 +188,6 @@ const Footer = () => {
                 >
                   Privacy Policy
                 </Text>
-              </VStack>
-            </VStack>
-          </GridItem>
-
-          {/* Contact Info */}
-          <GridItem>
-            <VStack align="start" spacing={4}>
-              <Heading as="h4" size="md" color="white">
-                Contact Info
-              </Heading>
-              <VStack align="start" spacing={3}>
-                <HStack spacing={3}>
-                  <Icon as={FaEnvelope} color="brand.400" />
-                  <Text color="whiteAlpha.700" fontSize="sm">
-                    debarunghoshpersonal@gmail.com
-                  </Text>
-                </HStack>
-                <HStack spacing={3}>
-                  <Icon as={FaPhone} color="brand.400" />
-                  <Text color="whiteAlpha.700" fontSize="sm">
-                    +91 8660544903
-                  </Text>
-                </HStack>
-                <HStack spacing={3}>
-                  <Icon as={FaMapMarkerAlt} color="brand.400" />
-                  <Text color="whiteAlpha.700" fontSize="sm">
-                    Bengaluru, India
-                  </Text>
-                </HStack>
               </VStack>
             </VStack>
           </GridItem>
