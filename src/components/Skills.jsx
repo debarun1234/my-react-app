@@ -93,98 +93,173 @@ const skillCategories = [
 
 // Languages with proficiency levels
 const languages = [
-  { name: 'English', level: 95, flag: '🇺🇸' },
-  { name: 'Hindi', level: 90, flag: '🇮🇳' },
-  { name: 'Bengali', level: 95, flag: '🏴󠁩󠁮󠁷󠁢󠁿' },
-  { name: 'Kannada', level: 40, flag: '🇮🇳' },
-  { name: 'French', level: 35, flag: '🇫🇷' },
+  { name: 'English', level: 95, flag: 'En', fontFamily: 'Georgia, serif' },
+  { name: 'Hindi', level: 90, flag: 'हिं', fontFamily: '"Noto Sans Devanagari", sans-serif' },
+  { name: 'Bengali', level: 95, flag: 'বাং', fontFamily: '"Noto Sans Bengali", sans-serif' },
+  { name: 'Kannada', level: 40, flag: 'ಕನ್', fontFamily: '"Noto Sans Kannada", sans-serif' },
+  { name: 'French', level: 35, flag: 'Fr', fontFamily: 'Georgia, serif' },
 ];
 
 const Skills = () => {
-  const cardBg = 'rgba(255, 255, 255, 0.05)';
+  const [hoveredSkill, setHoveredSkill] = React.useState(null);
   const textColor = 'white';
 
-  const SkillCard = ({ skill, index, categoryColor }) => (
-    <MotionCard
-      key={index}
-      variant="elevated"
-      bg={cardBg}
-      backdropFilter="blur(10px)"
-      border="1px solid"
-      borderColor="whiteAlpha.200"
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      whileHover={{ y: -5, scale: 1.02 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      viewport={{ once: true }}
-    >
-      <CardBody p={6}>
-        <VStack align="start" spacing={4}>
-          <HStack justify="space-between" w="full">
-            <HStack>
-              <Icon as={skill.icon} boxSize={6} color={categoryColor} />
-              <Heading as="h4" size="md" color={textColor}>
-                {skill.name}
-              </Heading>
-            </HStack>
-            <Badge colorScheme="brand" variant="subtle">
-              {skill.level}%
-            </Badge>
-          </HStack>
-          
-          <Box w="full">
-            <Progress
-              value={skill.level}
-              colorScheme="brand"
-              size="md"
-              borderRadius="full"
-              bg="whiteAlpha.200"
-            />
-          </Box>
-          
-          <Text fontSize="sm" color="whiteAlpha.700" lineHeight="tall">
-            {skill.details}
-          </Text>
-        </VStack>
-      </CardBody>
-    </MotionCard>
-  );
-
-  const LanguageCard = ({ language, index }) => (
-    <MotionCard
-      key={index}
-      variant="elevated"
-      bg={cardBg}
-      backdropFilter="blur(10px)"
-      border="1px solid"
-      borderColor="whiteAlpha.200"
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      whileHover={{ y: -5, scale: 1.05 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      viewport={{ once: true }}
-    >
-      <CardBody p={6} textAlign="center">
-        <VStack spacing={4}>
-          <Text fontSize="3xl">{language.flag}</Text>
-          <Heading as="h4" size="md" color={textColor}>
-            {language.name}
-          </Heading>
-          <Progress
-            value={language.level}
-            colorScheme="brand"
-            size="sm"
-            borderRadius="full"
-            bg="whiteAlpha.200"
-            w="full"
+  // Modern Skill Bar with Icon
+  const SkillBar = ({ skill, index, categoryColor }) => {
+    return (
+      <MotionBox
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.5 }}
+        transition={{ duration: 0.4, delay: index * 0.05 }}
+      >
+        <Box
+          position="relative"
+          bg="rgba(255, 255, 255, 0.03)"
+          backdropFilter="blur(10px)"
+          border="1px solid"
+          borderColor="whiteAlpha.200"
+          borderRadius="2xl"
+          p={6}
+          overflow="hidden"
+          _hover={{
+            borderColor: categoryColor,
+            bg: "rgba(255, 255, 255, 0.05)",
+          }}
+          transition="all 0.3s ease"
+          cursor="default"
+        >
+          {/* Animated Background Progress */}
+          <MotionBox
+            position="absolute"
+            left={0}
+            top={0}
+            bottom={0}
+            bgGradient={`linear(to-r, ${categoryColor} 0%, ${categoryColor} 70%, transparent 100%)`}
+            opacity={0.35}
+            initial={{ width: 0 }}
+            whileInView={{ width: `${skill.level}%` }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 1.2, delay: index * 0.1, ease: "easeOut" }}
+            _after={{
+              content: '""',
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: '4px',
+              bg: categoryColor,
+              boxShadow: `0 0 20px ${categoryColor}, 0 0 40px ${categoryColor}`,
+              opacity: 0.9,
+            }}
           />
-          <Badge colorScheme="brand" variant="subtle">
-            {language.level > 80 ? 'Fluent' : language.level > 50 ? 'Intermediate' : 'Beginner'}
-          </Badge>
-        </VStack>
-      </CardBody>
-    </MotionCard>
-  );
+          
+          <HStack spacing={4} position="relative" zIndex={1}>
+            {/* Icon */}
+            <Box
+              bg={categoryColor}
+              p={3}
+              borderRadius="lg"
+              boxShadow={`0 0 20px ${categoryColor}`}
+              flexShrink={0}
+            >
+              <Icon as={skill.icon} boxSize={6} color="white" />
+            </Box>
+            
+            {/* Skill Info */}
+            <VStack align="start" flex={1} spacing={1}>
+              <HStack justify="space-between" w="full">
+                <Text fontSize="lg" fontWeight="bold" color="white">
+                  {skill.name}
+                </Text>
+                <Badge 
+                  colorScheme="brand" 
+                  fontSize="sm"
+                  px={3}
+                  py={1}
+                  borderRadius="full"
+                >
+                  {skill.level}%
+                </Badge>
+              </HStack>
+              <Text fontSize="sm" color="whiteAlpha.600">
+                {skill.details}
+              </Text>
+            </VStack>
+          </HStack>
+        </Box>
+      </MotionBox>
+    );
+  };
+
+  // Language Card with Simple Design
+  const LanguageCard = ({ language, index }) => {
+    return (
+      <MotionBox
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: false, amount: 0.5 }}
+        transition={{ duration: 0.4, delay: index * 0.05 }}
+      >
+        <Box
+          bg="rgba(255, 255, 255, 0.03)"
+          backdropFilter="blur(10px)"
+          border="1px solid"
+          borderColor="whiteAlpha.200"
+          borderRadius="2xl"
+          p={6}
+          textAlign="center"
+          _hover={{
+            borderColor: "yellow.400",
+            bg: "rgba(255, 255, 255, 0.05)",
+          }}
+          transition="all 0.3s ease"
+          cursor="default"
+        >
+          <VStack spacing={4}>
+            {/* Language Script */}
+            <Box
+              fontSize="5xl"
+              fontWeight="bold"
+              fontFamily={language.fontFamily}
+              bgGradient="linear(to-r, yellow.400, orange.400)"
+              bgClip="text"
+            >
+              {language.flag}
+            </Box>
+            
+            {/* Language Name */}
+            <Text fontSize="xl" fontWeight="bold" color="white">
+              {language.name}
+            </Text>
+            
+            {/* Progress Bar */}
+            <Box w="full">
+              <HStack justify="space-between" mb={2}>
+                <Text fontSize="sm" color="whiteAlpha.600">
+                  {language.level > 80 ? 'Fluent' : language.level > 50 ? 'Intermediate' : 'Beginner'}
+                </Text>
+                <Text fontSize="sm" fontWeight="bold" color="yellow.400">
+                  {language.level}%
+                </Text>
+              </HStack>
+              <Progress
+                value={language.level}
+                size="sm"
+                borderRadius="full"
+                bg="whiteAlpha.200"
+                sx={{
+                  '& > div': {
+                    background: 'linear-gradient(to-r, #facc15, #f97316)',
+                  }
+                }}
+              />
+            </Box>
+          </VStack>
+        </Box>
+      </MotionBox>
+    );
+  };
 
   return (
     <Box
@@ -198,7 +273,7 @@ const Skills = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             textAlign="center"
           >
             <Heading
@@ -216,7 +291,7 @@ const Skills = () => {
             </Text>
           </MotionBox>
 
-          {/* Skill Categories */}
+          {/* Skill Categories with Modern Bar Design */}
           {skillCategories.map((category, categoryIndex) => (
             <MotionBox
               key={categoryIndex}
@@ -224,28 +299,40 @@ const Skills = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: categoryIndex * 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
             >
               <VStack spacing={8} align="stretch">
                 {/* Category Header */}
-                <HStack justify="center" spacing={4}>
-                  <Icon as={category.icon} boxSize={8} color={category.color} />
-                  <Heading as="h3" size="xl" color={textColor}>
+                <HStack spacing={4} mb={4}>
+                  <Box
+                    bg={category.color}
+                    p={3}
+                    borderRadius="lg"
+                    boxShadow={`0 0 30px ${category.color}`}
+                  >
+                    <Icon as={category.icon} boxSize={10} color="white" />
+                  </Box>
+                  <Heading 
+                    as="h3" 
+                    size="xl" 
+                    bgGradient={`linear(to-r, ${category.color}, brand.400)`}
+                    bgClip="text"
+                  >
                     {category.title}
                   </Heading>
                 </HStack>
 
-                {/* Skills Grid */}
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
+                {/* Skills List */}
+                <VStack spacing={4} align="stretch">
                   {category.skills.map((skill, skillIndex) => (
-                    <SkillCard
+                    <SkillBar
                       key={skillIndex}
                       skill={skill}
                       index={skillIndex}
                       categoryColor={category.color}
                     />
                   ))}
-                </SimpleGrid>
+                </VStack>
               </VStack>
             </MotionBox>
           ))}
@@ -256,17 +343,31 @@ const Skills = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
           >
             <VStack spacing={8} align="stretch">
-              <HStack justify="center" spacing={4}>
-                <Icon as={FaLanguage} boxSize={8} color="yellow.400" />
-                <Heading as="h3" size="xl" color={textColor}>
+              {/* Languages Header */}
+              <HStack spacing={4} mb={4}>
+                <Box
+                  bg="yellow.400"
+                  p={3}
+                  borderRadius="lg"
+                  boxShadow="0 0 30px #facc15"
+                >
+                  <Icon as={FaLanguage} boxSize={10} color="white" />
+                </Box>
+                <Heading 
+                  as="h3" 
+                  size="xl" 
+                  bgGradient="linear(to-r, yellow.400, orange.400)"
+                  bgClip="text"
+                >
                   Languages
                 </Heading>
               </HStack>
 
-              <SimpleGrid columns={{ base: 2, md: 3, lg: 5 }} spacing={6}>
+              {/* Languages Grid */}
+              <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} spacing={6}>
                 {languages.map((language, index) => (
                   <LanguageCard key={index} language={language} index={index} />
                 ))}

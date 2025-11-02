@@ -48,7 +48,12 @@ const Footer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const heroSection = document.getElementById('hero');
+    if (heroSection) {
+      heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const quickLinks = [

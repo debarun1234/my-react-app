@@ -17,7 +17,7 @@ import ScrollGuide from './components/ScrollGuide'; // Import the ScrollGuide
 import Footer from './components/Footer'; // Import the Footer
 import ScrollToTop from './components/ScrollToTop'; // Import the ScrollToTop
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import ThemeToggle from "./components/ThemeToggle";
+import CustomCursor from "./components/CustomCursor"; // Import the CustomCursor
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -87,6 +87,7 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
+      <CustomCursor />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainContent />} />

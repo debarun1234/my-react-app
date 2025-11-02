@@ -114,7 +114,7 @@ const Projects = () => {
         boxShadow: '0 20px 40px rgba(0,0,0,0.3)' 
       }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, amount: 0.3 }}
       overflow="hidden"
       position="relative"
     >
@@ -242,7 +242,7 @@ const Projects = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             textAlign="center"
           >
             <Heading
@@ -283,7 +283,7 @@ const Projects = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
             >
               <Grid 
                 templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} 
@@ -314,17 +314,25 @@ const Projects = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
             >
               <Button
                 as={Link}
                 href={`https://github.com/${GITHUB_USERNAME}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                variant="gradient"
+                variant="outline"
                 size="lg"
                 leftIcon={<FaGithub />}
-                _hover={{ textDecoration: 'none' }}
+                color="white"
+                borderColor="whiteAlpha.400"
+                _hover={{ 
+                  textDecoration: 'none',
+                  color: 'brand.400',
+                  borderColor: 'brand.400',
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'xl',
+                }}
               >
                 View All Projects
               </Button>

@@ -74,7 +74,7 @@ const About = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             textAlign="center"
           >
             <Heading
@@ -94,7 +94,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             w="full"
           >
             <Grid templateColumns={{ base: '1fr 1fr', md: 'repeat(4, 1fr)' }} gap={6} mb={16}>
@@ -135,7 +135,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             w="full"
           >
             <VStack spacing={8} align="stretch">
@@ -177,7 +177,7 @@ const About = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     whileHover={{ y: -10, boxShadow: '2xl' }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false, amount: 0.3 }}
                   >
                     <CardBody p={8}>
                       <VStack align="start" spacing={4}>

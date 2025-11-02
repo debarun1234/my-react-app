@@ -107,7 +107,7 @@ const Certifications = () => {
               key={index}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               variant="elevated"
               bg={cardBg}

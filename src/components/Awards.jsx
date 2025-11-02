@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
@@ -124,7 +124,7 @@ const Awards = () => {
               key={index}
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               w="full"
               variant="elevated"
@@ -135,6 +135,7 @@ const Awards = () => {
               borderRadius="2xl"
               overflow="visible"
               cursor={award.hasProof ? 'pointer' : 'default'}
+              data-clickable={award.hasProof ? 'true' : 'false'}
               onClick={() => handleCardClick(award)}
               onMouseEnter={() => setHoveredCard(index)}
               onMouseLeave={() => setHoveredCard(null)}
@@ -198,7 +199,7 @@ const Awards = () => {
                           ease: "easeInOut"
                         }}
                       >
-                        <Text fontSize="lg">👆</Text>
+                        <Text fontSize="lg">??</Text>
                       </MotionBox>
                     </Flex>
                   </MotionBox>
