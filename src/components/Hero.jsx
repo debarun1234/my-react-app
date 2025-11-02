@@ -1,11 +1,51 @@
 import React, { useEffect, useRef } from 'react';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Avatar,
+  Icon,
+  Button,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
+import { motion } from 'framer-motion';
 import Typed from 'typed.js';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaChevronDown } from 'react-icons/fa';
+import { HiSparkles } from 'react-icons/hi';
 import BackgroundImage from '../assets/bagai.webp';
 import ProfileImage from '../assets/IMG_1757.jpg';
 
+// Animation keyframes
+const float = keyframes`
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+`;
+
+const sparkle = keyframes`
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+`;
+
+const MotionBox = motion(Box);
+const MotionAvatar = motion(Avatar);
+
 const Hero = () => {
   const typedElement = useRef(null);
+  
+  // Color mode values
+  const bgGradient = useColorModeValue(
+    'linear(to-br, gray.900, purple.900, blue.900)',
+    'linear(to-br, gray.900, purple.900, blue.900)'
+  );
+  
+  const glassBoxBg = useColorModeValue(
+    'rgba(255, 255, 255, 0.1)',
+    'rgba(255, 255, 255, 0.05)'
+  );
 
   useEffect(() => {
     const typed = new Typed(typedElement.current, {
@@ -20,67 +60,220 @@ const Hero = () => {
     };
   }, []);
 
-  // Function to scroll to the next section
   const scrollToNextSection = () => {
-    const nextSection = document.getElementById('about'); // Change this to your next section's id
+    const nextSection = document.getElementById('about');
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <section
-      className="flex flex-col items-center justify-center min-h-screen bg-primary text-blue-300 relative bg-cover bg-center bg-no-repeat w-full h-full"
-      style={{
-        backgroundImage: `url(${BackgroundImage})`,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        backgroundBlendMode: 'overlay',
-        backgroundSize: 'cover', // Ensure the image covers the entire section
-        backgroundPosition: 'center', // Center the image
-        width: '100vw', // Full viewport width
-        height: '100vh', // Full viewport height
-      }}>
-      <div className="w-32 h-32 mb-4 rounded-full bg-secondary overflow-hidden">
-        <img src={ProfileImage} alt="Profile" className="w-adaptive h-adaptive object-cover" />
-      </div>
-      <h1 className="text-4xl font-bold mb-2">Debarun Ghosh</h1>
-      <h2 className="text-xl font-semibold mb-4 text-center">
-        Software Engineer | Generative AI Developer | Technology Enthusiast
-      </h2>
-      <div
-        ref={typedElement}
-        className="text-lg font-mono h-8 overflow-hidden whitespace-nowrap"
-        style={{ minHeight: '1.5rem' }}
+    <Box
+      minH="100vh"
+      position="relative"
+      overflow="hidden"
+      bgImage={`url(${BackgroundImage})`}
+      bgSize="cover"
+      bgPosition="center"
+      bgAttachment="fixed"
+    >
+      {/* Overlay with gradient */}
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        bgGradient={bgGradient}
+        opacity="0.8"
+        zIndex="1"
       />
-      <div className="flex space-x-6 mt-6">
-        <a href="https://github.com/debarun1234" target="_blank" rel="noopener noreferrer">
-          <FaGithub className="text-3xl hover:text-gray-400 transition duration-300" />
-        </a>
-        <a href="https://linkedin.com/in/debarunghosh2024" target="_blank" rel="noopener noreferrer">
-          <FaLinkedin className="text-3xl hover:text-gray-400 transition duration-300" />
-        </a>
-      </div>
+      
+      {/* Floating particles effect */}
+      <Box position="absolute" top="0" left="0" right="0" bottom="0" zIndex="2">
+        {[...Array(20)].map((_, i) => {
+          const delay = Math.random() * 2;
+          return (
+            <Box
+              key={i}
+              position="absolute"
+              top={`${Math.random() * 100}%`}
+              left={`${Math.random() * 100}%`}
+              w="4px"
+              h="4px"
+              bg="brand.400"
+              borderRadius="full"
+              animation={`${sparkle} ${2 + Math.random() * 3}s infinite`}
+              sx={{
+                animationDelay: `${delay}s`,
+              }}
+            />
+          );
+        })}
+      </Box>
+
+      {/* Main Content */}
+      <Container
+        maxW="container.xl"
+        h="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        position="relative"
+        zIndex="3"
+      >
+        <VStack spacing={8} textAlign="center">
+          {/* Profile Image with glassmorphism */}
+          <MotionBox
+            initial={{ opacity: 0, y: -50, scale: 0.5 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <Box
+              p={2}
+              bg={glassBoxBg}
+              backdropFilter="blur(10px)"
+              border="2px solid"
+              borderColor="whiteAlpha.300"
+              borderRadius="full"
+              animation={`${float} 6s ease-in-out infinite`}
+            >
+              <MotionAvatar
+                size="2xl"
+                src={ProfileImage}
+                name="Debarun Ghosh"
+                border="4px solid"
+                borderColor="brand.400"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
+              />
+            </Box>
+          </MotionBox>
+
+          {/* Name with gradient text */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <Heading
+              as="h1"
+              size="2xl"
+              bgGradient="linear(to-r, brand.400, purple.400, pink.400)"
+              bgClip="text"
+              color="transparent"
+              fontWeight="bold"
+              mb={2}
+            >
+              Debarun Ghosh
+            </Heading>
+          </MotionBox>
+
+          {/* Subtitle */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <Text
+              fontSize="xl"
+              color="whiteAlpha.900"
+              maxW="600px"
+              lineHeight="tall"
+              mb={4}
+            >
+              Software Engineer | Generative AI Developer | Technology Enthusiast
+            </Text>
+          </MotionBox>
+
+          {/* Typed text */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <HStack spacing={2} justify="center" align="center">
+              <Icon as={HiSparkles} color="brand.400" />
+              <Text
+                ref={typedElement}
+                fontSize="lg"
+                fontFamily="mono"
+                color="brand.300"
+                minH="28px"
+              />
+              <Icon as={HiSparkles} color="brand.400" />
+            </HStack>
+          </MotionBox>
+
+          {/* Social Links */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+          >
+            <HStack spacing={6}>
+              <Button
+                as="a"
+                href="https://github.com/debarun1234"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="glass"
+                size="lg"
+                leftIcon={<FaGithub />}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+                }}
+              >
+                GitHub
+              </Button>
+              <Button
+                as="a"
+                href="https://linkedin.com/in/debarunghosh2024"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="glass"
+                size="lg"
+                leftIcon={<FaLinkedin />}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+                }}
+              >
+                LinkedIn
+              </Button>
+            </HStack>
+          </MotionBox>
+        </VStack>
+      </Container>
 
       {/* Scroll Down Indicator */}
-      <div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer text-center z-50"
-        onClick={scrollToNextSection} // Make sure this function is defined
-        >
-        <span className="text-white text-sm">Scroll Down</span>
-        <div className="animate-bounce mt-2 items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6 text-white"
+      <MotionBox
+        position="absolute"
+        bottom="8"
+        left="50%"
+        transform="translateX(-50%)"
+        zIndex="4"
+        cursor="pointer"
+        onClick={scrollToNextSection}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2 }}
+        whileHover={{ y: -5 }}
+      >
+        <VStack spacing={2}>
+          <Text color="whiteAlpha.800" fontSize="sm">
+            Scroll Down
+          </Text>
+          <MotionBox
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      </div>
-    </section>
+            <Icon as={FaChevronDown} color="brand.400" boxSize="6" />
+          </MotionBox>
+        </VStack>
+      </MotionBox>
+    </Box>
   );
 };
 

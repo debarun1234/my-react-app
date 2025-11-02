@@ -1,8 +1,24 @@
 import React from 'react';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Image,
+  Badge,
+  Card,
+  CardBody,
+  SimpleGrid,
+  useColorModeValue,
+  Flex,
+} from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import ANZLogo from '../assets/anz-logo.svg'; // Example logos
+import { FaBriefcase, FaCalendar } from 'react-icons/fa';
+import ANZLogo from '../assets/anz-logo.svg';
 import DOM4ULogo from '../assets/dom4u_logo.jpeg';
-import MphasisLogo from '../assets/mphasis-logo (1).png'; // Make sure these paths are correct
+import MphasisLogo from '../assets/mphasis-logo (1).png';
 
 const experiences = [
   {
@@ -40,36 +56,139 @@ const experiences = [
   },
 ];
 
+const MotionCard = motion(Card);
+
 const Experience = () => {
+  const cardBg = 'rgba(255, 255, 255, 0.05)';
+  const textColor = 'white';
+  
   return (
-    <section className="py-20 bg-primary text-accent">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Experience</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <Box
+      as="section"
+      py={12}
+      position="relative"
+    >
+      <Container maxW="container.xl">
+        {/* Section Header */}
+        <VStack spacing={4} mb={16} textAlign="center">
+          <Flex align="center" gap={3}>
+            <FaBriefcase size={32} color="var(--chakra-colors-brand-400)" />
+            <Heading
+              as="h2"
+              size="2xl"
+              bgGradient="linear(to-r, brand.400, purple.400)"
+              bgClip="text"
+              color="transparent"
+            >
+              Professional Experience
+            </Heading>
+          </Flex>
+          <Text fontSize="xl" color="whiteAlpha.700" maxW="2xl">
+            My journey through innovative technology companies
+          </Text>
+        </VStack>
+
+        {/* Experience Cards */}
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
           {experiences.map((exp, index) => (
-            <motion.div
+            <MotionCard
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-secondary p-6 rounded-lg shadow-lg"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              variant="elevated"
+              bg={cardBg}
+              backdropFilter="blur(10px)"
+              border="1px solid"
+              borderColor="whiteAlpha.200"
+              borderRadius="2xl"
+              overflow="hidden"
+              _hover={{
+                transform: 'translateY(-8px)',
+                shadow: '2xl',
+                borderColor: 'brand.400',
+              }}
             >
-              <div className="flex items-center justify-center mb-4">
-                <img
-                  src={exp.image}
-                  alt={`${exp.company} logo`}
-                  className="w-25 h-20 object-cover square-full"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">{exp.title}</h3>
-              <p className="text-sm text-black text-center">{exp.company} - {exp.duration}</p>
-              <p className="mt-4 text-black text-center">{exp.description}</p>
-              <p className="mt-4 text-blue-400 text-sm text-center"><strong>Tech Stack:</strong> {exp.techStack}</p>
-            </motion.div>
+              <CardBody p={6}>
+                <VStack align="stretch" spacing={4}>
+                  {/* Company Logo */}
+                  <Flex justify="center" align="center" h="100px" mb={2}>
+                    <Image
+                      src={exp.image}
+                      alt={`${exp.company} logo`}
+                      maxH="80px"
+                      maxW="200px"
+                      objectFit="contain"
+                      fallback={<Box w="100px" h="80px" bg="gray.200" borderRadius="md" />}
+                    />
+                  </Flex>
+
+                  {/* Job Title */}
+                  <Heading
+                    as="h3"
+                    size="md"
+                    textAlign="center"
+                    color={textColor}
+                  >
+                    {exp.title}
+                  </Heading>
+
+                  {/* Company & Duration */}
+                  <VStack spacing={2} align="center">
+                    <Text fontWeight="600" fontSize="sm" textAlign="center" color="purple.300">
+                      {exp.company}
+                    </Text>
+                    <HStack spacing={2} color="whiteAlpha.700">
+                      <FaCalendar size={14} />
+                      <Text fontSize="sm">{exp.duration}</Text>
+                    </HStack>
+                  </VStack>
+
+                  {/* Description */}
+                  <Text
+                    fontSize="sm"
+                    color="whiteAlpha.800"
+                    textAlign="center"
+                    lineHeight="tall"
+                  >
+                    {exp.description.trim()}
+                  </Text>
+
+                  {/* Tech Stack */}
+                  <Box pt={4} borderTop="1px" borderColor="whiteAlpha.200">
+                    <Text
+                      fontSize="xs"
+                      fontWeight="600"
+                      mb={2}
+                      color="whiteAlpha.700"
+                      textAlign="center"
+                    >
+                      Tech Stack
+                    </Text>
+                    <Flex flexWrap="wrap" gap={2} justify="center">
+                      {exp.techStack.split(', ').map((tech, i) => (
+                        <Badge
+                          key={i}
+                          colorScheme="brand"
+                          variant="subtle"
+                          px={3}
+                          py={1}
+                          borderRadius="full"
+                          fontSize="xs"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </Flex>
+                  </Box>
+                </VStack>
+              </CardBody>
+            </MotionCard>
           ))}
-        </div>
-      </div>
-    </section>
+        </SimpleGrid>
+      </Container>
+    </Box>
   );
 };
 

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
+import { ChakraProvider, Box } from '@chakra-ui/react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ParallaxProvider } from 'react-scroll-parallax';
+import theme from './theme';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -15,6 +17,7 @@ import ScrollGuide from './components/ScrollGuide'; // Import the ScrollGuide
 import Footer from './components/Footer'; // Import the Footer
 import ScrollToTop from './components/ScrollToTop'; // Import the ScrollToTop
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import ThemeToggle from "./components/ThemeToggle";
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -31,45 +34,45 @@ const sections = [
 
 function MainContent() {
   return (
-    <div>
+    <Box minH="100vh" position="relative">
       <ScrollGuide sections={sections} /> {/* Passing the sections */}
       <ParallaxProvider>
-        <div className="app">
-          <section id="hero">
+        <Box>
+          <Box as="section" id="hero">
             <Hero />
-          </section>
-          <section id="about">
+          </Box>
+          <Box as="section" id="about">
             <About />
-          </section>
-          <section id="skills">
+          </Box>
+          <Box as="section" id="skills">
             <Skills />
-          </section>
-          <section id="experience">
+          </Box>
+          <Box as="section" id="experience">
             <Experience />
-          </section>
-          <section id="education">
+          </Box>
+          <Box as="section" id="education">
             <Education />
-          </section>
-          <section id="projects">
+          </Box>
+          <Box as="section" id="projects">
             <Projects />
-          </section>
-          <section id="publications">
+          </Box>
+          <Box as="section" id="publications">
             <Publications />
-          </section>
-          <section id="certifications">
+          </Box>
+          <Box as="section" id="certifications">
             <Certifications />
-          </section>
-          <section id="awards">
+          </Box>
+          <Box as="section" id="awards">
             <Awards />
-          </section>
-          <section id="contact">
+          </Box>
+          <Box as="section" id="contact">
             <Contact />
-          </section>
-        </div>
+          </Box>
+        </Box>
       </ParallaxProvider>
       <ScrollToTop /> {/* Add the ScrollToTop button */}
       <Footer /> {/* Include Footer at the end */}
-    </div>
+    </Box>
   );
 }
 
@@ -83,12 +86,14 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainContent />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      </Routes>
-    </BrowserRouter>
+    <ChakraProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainContent />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        </Routes>
+      </BrowserRouter>
+    </ChakraProvider>
   );
 }
 

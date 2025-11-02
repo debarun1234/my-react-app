@@ -2,25 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Global Styles */
+/* Reset and base styles for Chakra UI compatibility */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 body {
-  background-color: #0d0d0d;
-  color: #f5f5f5;
-  font-family: 'Roboto', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: bold;
-}
-
-p {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
 }
 
-/* Tailwind Customization */
-@layer components {
-  .btn {
-    @apply px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600;
-  }
+/* Ensure Chakra UI styles take precedence */
+#root {
+  position: relative;
 }
 
