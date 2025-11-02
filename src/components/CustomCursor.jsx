@@ -8,6 +8,7 @@ const CustomCursor = () => {
   const scrollTimeout = useRef(null);
   const lastScrollPos = useRef(0);
   const isScrolling = useRef(false);
+  const scrollDirection = useRef(null);
 
   useEffect(() => {
     // Check if element is clickable
@@ -56,7 +57,7 @@ const CustomCursor = () => {
     const handleMouseMove = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
 
-      // Don't change cursor state while scrolling
+      // Don't change cursor state while actively scrolling
       if (isScrolling.current) {
         return;
       }
@@ -67,37 +68,46 @@ const CustomCursor = () => {
       setCursorState(isClickable ? 'hover' : 'default');
     };
 
-    // Track scrolling with direction
+    // Track scrolling with direction - improved version
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
       const scrollDifference = currentScrollPos - lastScrollPos.current;
       
-      // Only update if there's a meaningful scroll (more than 1px)
-      if (Math.abs(scrollDifference) > 1) {
+      // Set scrolling state immediately
+      if (!isScrolling.current && Math.abs(scrollDifference) > 0) {
         isScrolling.current = true;
-        
-        if (scrollDifference > 0) {
-          setCursorState('scrollDown');
-        } else if (scrollDifference < 0) {
-          setCursorState('scrollUp');
-        }
+      }
+      
+      // Determine direction and update cursor
+      if (scrollDifference > 0) {
+        scrollDirection.current = 'down';
+        setCursorState('scrollDown');
+      } else if (scrollDifference < 0) {
+        scrollDirection.current = 'up';
+        setCursorState('scrollUp');
       }
       
       lastScrollPos.current = currentScrollPos;
       
+      // Clear existing timeout
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);
       }
 
+      // Keep scroll cursor visible for longer
       scrollTimeout.current = setTimeout(() => {
         isScrolling.current = false;
+        scrollDirection.current = null;
         
         // Check what's under cursor after scroll ends
         const target = document.elementFromPoint(mousePos.current.x, mousePos.current.y);
-        const isClickable = checkClickable(target);
-        
-        setCursorState(isClickable ? 'hover' : 'default');
-      }, 200);
+        if (target) {
+          const isClickable = checkClickable(target);
+          setCursorState(isClickable ? 'hover' : 'default');
+        } else {
+          setCursorState('default');
+        }
+      }, 300);
     };
 
     // Smooth animation for cursor
@@ -113,13 +123,50 @@ const CustomCursor = () => {
       requestAnimationFrame(animateCursor);
     };
 
+    // Wheel event for immediate feedback
+    const handleWheel = (e) => {
+      if (!isScrolling.current) {
+        isScrolling.current = true;
+      }
+      
+      if (e.deltaY > 0) {
+        scrollDirection.current = 'down';
+        setCursorState('scrollDown');
+      } else if (e.deltaY < 0) {
+        scrollDirection.current = 'up';
+        setCursorState('scrollUp');
+      }
+      
+      // Reset timer
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      
+      scrollTimeout.current = setTimeout(() => {
+        isScrolling.current = false;
+        scrollDirection.current = null;
+        
+        const target = document.elementFromPoint(mousePos.current.x, mousePos.current.y);
+        if (target) {
+          const isClickable = checkClickable(target);
+          setCursorState(isClickable ? 'hover' : 'default');
+        } else {
+          setCursorState('default');
+        }
+      }, 300);
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
     const animationId = requestAnimationFrame(animateCursor);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('scroll', handleScroll);
       cancelAnimationFrame(animationId);
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);

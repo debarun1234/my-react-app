@@ -113,8 +113,25 @@ const Experience = () => {
     >
       <Container maxW="container.xl">
         {/* Section Header */}
-        <VStack spacing={4} mb={16} textAlign="center">
-          <Flex align="center" gap={3}>
+        <VStack 
+          as={motion.div}
+          spacing={4} 
+          mb={16} 
+          textAlign="center"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Flex 
+            as={motion.div}
+            align="center" 
+            gap={3}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <FaBriefcase size={32} color="var(--chakra-colors-brand-400)" />
             <Heading
               as="h2"
@@ -126,7 +143,16 @@ const Experience = () => {
               Professional Experience
             </Heading>
           </Flex>
-          <Text fontSize="xl" color="whiteAlpha.700" maxW="2xl">
+          <Text 
+            as={motion.p}
+            fontSize="xl" 
+            color="whiteAlpha.700" 
+            maxW="2xl"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             My journey through innovative technology companies
           </Text>
         </VStack>
@@ -143,23 +169,24 @@ const Experience = () => {
             >
               <MotionBox
                 initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                }}
                 viewport={{ once: false, amount: 0.3 }}
+                animate={{
+                  rotateY: flippedCard === index ? 180 : 0,
+                }}
+                transition={{ 
+                  opacity: { duration: 0.5, delay: index * 0.1 },
+                  y: { duration: 0.5, delay: index * 0.1 },
+                  rotateY: { duration: 0.6 }
+                }}
                 cursor="pointer"
                 data-clickable="true"
                 onClick={() => handleCardClick(exp, index)}
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
-                animate={{
-                  rotateY: flippedCard === index ? 180 : 0,
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{ 
-                  rotateY: { duration: 0.6 },
-                  opacity: { duration: 0.5, delay: index * 0.1 },
-                  y: { duration: 0.5, delay: index * 0.1 }
-                }}
                 style={{ 
                   transformStyle: 'preserve-3d',
                   position: 'relative',
