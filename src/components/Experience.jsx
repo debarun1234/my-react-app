@@ -32,23 +32,23 @@ import mphasisCertificate from '../assets/Debarun_Ghosh_Internship_Letter.pdf';
 
 const experiences = [
   {
-    title: 'Site Reliability Engineer (SRE)',
+    title: 'Gen AI Engineer',
     company: 'ANZ Pvt. Ltd., Bengaluru',
     duration: 'May 2024 – Present',
     description: `
       Spearheading initiatives to optimize data workflows and implement machine learning models, 
       contributing to operational efficiency and informed decision-making within the Banking Sector.
     `,
-    techStack: 'Python, PostgreSQL, Terraform, Docker, LLMOps',
+    techStack: 'Python, PostgreSQL, Terraform, Docker, LLMOps, GCP, AlloyDB',
     image: ANZLogo,
     color: 'blue.400',
     hasProof: false,
     isCurrentRole: true,
   },
   {
-    title: 'AI/ML Integration Engineer',
+    title: 'AI/ML Integration Engineer Intern',
     company: 'DOM4U Pvt. Ltd., Bengaluru',
-    duration: 'August 2023 – April 2024',
+    duration: 'December 2023 – April 2024',
     description: `
       Enhanced legacy industrial applications through AI and ML integration, automating and improving
       efficiency via deep learning and reverse engineering.
