@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"c:\\\\Users\\\\dghos\\\\Documents\\\\GitHub\\\\my-react-app\" /s /b)",
+      "Bash(findstr -i \"logo\\\\|dg\\\\|brand\")"
+    ]
+  }
+}

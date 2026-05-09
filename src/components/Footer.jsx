@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
 import {
   Box,
   Container,
@@ -13,250 +12,168 @@ import {
   Icon,
   Divider,
   Button,
-  SimpleGrid,
   Flex,
-  useColorModeValue,
+  Image,
   useDisclosure,
 } from '@chakra-ui/react';
 import PrivacyPolicy from './PrivacyPolicy';
-import { motion } from 'framer-motion';
-import {
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaHeart,
-  FaReact,
-  FaPython,
-  FaDocker,
-  FaAws,
-  FaDatabase,
-  FaArrowUp,
-} from 'react-icons/fa';
-import {
-  SiTensorflow,
-  SiChakraui,
-  SiVite,
-  SiTailwindcss,
-  SiNetlify,
-} from 'react-icons/si';
+import dgLogo from '../assets/dg_logo.png';
+import { FaGithub, FaLinkedin, FaEnvelope, FaHeart, FaReact, FaArrowUp } from 'react-icons/fa';
+import { SiChakraui, SiVite, SiNetlify } from 'react-icons/si';
 
-const MotionBox = motion(Box);
+const techStack = [
+  { name: 'React',     icon: FaReact,    color: '#76E4F7' },
+  { name: 'Vite',      icon: SiVite,     color: '#A78BFA' },
+  { name: 'Chakra UI', icon: SiChakraui, color: '#4FD1C5' },
+  { name: 'Netlify',   icon: SiNetlify,  color: '#67E8F9' },
+];
+
+const quickLinks = [
+  { name: 'About',        href: '#about'        },
+  { name: 'Skills',       href: '#skills'       },
+  { name: 'Experience',   href: '#experience'   },
+  { name: 'Projects',     href: '#projects'     },
+  { name: 'Education',    href: '#education'    },
+  { name: 'Publications', href: '#publications' },
+  { name: 'Certifications', href: '#certifications' },
+  { name: 'Contact',      href: '#contact'      },
+];
+
+const NavLink = ({ href, children }) => (
+  <Link
+    href={href}
+    color="whiteAlpha.600"
+    fontSize="sm"
+    _hover={{ color: 'brand.400', textDecoration: 'none', pl: '4px' }}
+    transition="all 0.25s"
+  >
+    {children}
+  </Link>
+);
 
 const Footer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const scrollToTop = () => {
-    const heroSection = document.getElementById('hero');
-    if (heroSection) {
-      heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    const el = document.getElementById('hero');
+    el ? el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+       : window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const quickLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Education', href: '#education' },
-    { name: 'Publications', href: '#publications' },
-    { name: 'Certifications', href: '#certifications' },
-    { name: 'Contact', href: '#contact' },
-  ];
-
-  const techStack = [
-    { name: 'React', icon: FaReact, color: 'cyan.400' },
-    { name: 'Vite', icon: SiVite, color: 'purple.400' },
-    { name: 'Chakra UI', icon: SiChakraui, color: 'teal.400' },
-    { name: 'Netlify', icon: SiNetlify, color: 'cyan.300' },
-  ];
-
   return (
-    <Box
-      as="footer"
-      position="relative"
-      pt={20}
-      pb={8}
-      bg="transparent"
-    >
+    <Box as="footer" pt={16} pb={6} bg="transparent" position="relative">
       <Container maxW="container.xl">
+
+        {/* ── Main grid ─────────────────────────────────────────── */}
         <Grid
-          templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
-          gap={12}
-          mb={12}
+          templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+          gap={{ base: 10, lg: 16 }}
+          mb={10}
+          alignItems="start"
         >
-          {/* About Section */}
-          <GridItem colSpan={{ base: 1, lg: 1 }}>
+          {/* Col 1 — Brand */}
+          <GridItem>
             <VStack align="start" spacing={4}>
-              <Heading
-                as="h3"
-                size="lg"
-                bgGradient="linear(to-r, brand.400, purple.400)"
-                bgClip="text"
-                color="transparent"
-              >
-                Debarun Ghosh
-              </Heading>
-              <Text color="whiteAlpha.700" fontSize="sm" lineHeight="tall">
-              Software Engineer & Gen-AI Developer passionate about creating innovative
-              solutions using AI/ML technologies.
-              </Text>
-              <HStack spacing={4} pt={2}>
-                <Link href="https://github.com/debarun1234" target="_blank" rel="noopener noreferrer">
-                  <Icon
-                    as={FaGithub}
-                    boxSize={6}
-                    color="whiteAlpha.700"
-                    _hover={{ color: 'white', transform: 'scale(1.2)' }}
-                    transition="all 0.3s"
-                  />
-                </Link>
-                <Link href="https://linkedin.com/in/debarunghosh2024" target="_blank" rel="noopener noreferrer">
-                  <Icon
-                    as={FaLinkedin}
-                    boxSize={6}
-                    color="whiteAlpha.700"
-                    _hover={{ color: 'brand.400', transform: 'scale(1.2)' }}
-                    transition="all 0.3s"
-                  />
-                </Link>
-                <Link href="mailto:debarun.ghosh.2024@gmail.com">
-                  <Icon
-                    as={FaEnvelope}
-                    boxSize={6}
-                    color="whiteAlpha.700"
-                    _hover={{ color: 'accent.400', transform: 'scale(1.2)' }}
-                    transition="all 0.3s"
-                  />
-                </Link>
+              <HStack spacing={4} align="center">
+                <Image
+                  src={dgLogo}
+                  alt="Debarun Ghosh"
+                  h="105px"
+                  w="auto"
+                  objectFit="contain"
+                  flexShrink={0}
+                  style={{ mixBlendMode: 'screen' }}
+                />
+                <Text color="whiteAlpha.600" fontSize="medium" lineHeight="1.7" textAlign="left">
+                  Gen-AI Engineer & Mentor building production-grade AI systems,
+                  RAG pipelines, and intelligent cloud solutions.
+                </Text>
               </HStack>
             </VStack>
           </GridItem>
 
-          {/* Quick Links */}
+          {/* Col 2 — Quick Links */}
           <GridItem>
-            <VStack align="start" spacing={4}>
-              <Heading as="h4" size="md" color="white">
+            <VStack align="start" spacing={3}>
+              <Text fontSize="xs" fontWeight="700" color="whiteAlpha.400"
+                textTransform="uppercase" letterSpacing="0.12em" mb={1}>
                 Quick Links
-              </Heading>
-              <VStack align="start" spacing={2}>
-                {quickLinks.slice(0, 4).map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    color="whiteAlpha.700"
-                    fontSize="sm"
-                    _hover={{ color: 'brand.400', textDecoration: 'none', transform: 'translateX(5px)' }}
-                    transition="all 0.3s"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </VStack>
+              </Text>
+              {quickLinks.slice(0, 4).map(l => (
+                <NavLink key={l.name} href={l.href}>{l.name}</NavLink>
+              ))}
             </VStack>
           </GridItem>
 
-          {/* More Links */}
+          {/* Col 3 — More */}
           <GridItem>
-            <VStack align="start" spacing={4}>
-              <Heading as="h4" size="md" color="white">
+            <VStack align="start" spacing={3}>
+              <Text fontSize="xs" fontWeight="700" color="whiteAlpha.400"
+                textTransform="uppercase" letterSpacing="0.12em" mb={1}>
                 More
-              </Heading>
-              <VStack align="start" spacing={2}>
-                {quickLinks.slice(4).map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    color="whiteAlpha.700"
-                    fontSize="sm"
-                    _hover={{ color: 'brand.400', textDecoration: 'none', transform: 'translateX(5px)' }}
-                    transition="all 0.3s"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-                <Text
-                  as="button"
-                  onClick={onOpen}
-                  color="whiteAlpha.700"
-                  fontSize="sm"
-                  _hover={{ color: 'brand.400', transform: 'translateX(5px)' }}
-                  transition="all 0.3s"
-                  cursor="pointer"
-                  bg="transparent"
-                  border="none"
-                  textAlign="left"
-                  p={0}
-                >
-                  Privacy Policy
-                </Text>
-              </VStack>
+              </Text>
+              {quickLinks.slice(4).map(l => (
+                <NavLink key={l.name} href={l.href}>{l.name}</NavLink>
+              ))}
+              <Text
+                as="button" onClick={onOpen}
+                color="whiteAlpha.600" fontSize="sm"
+                _hover={{ color: 'brand.400', pl: '4px' }}
+                transition="all 0.25s" cursor="pointer"
+                bg="transparent" border="none" textAlign="left" p={0}
+              >
+                Privacy Policy
+              </Text>
             </VStack>
           </GridItem>
         </Grid>
 
-        <Divider borderColor="whiteAlpha.300" my={8} />
+        <Divider borderColor="whiteAlpha.100" />
 
-        {/* Tech Stack Section */}
-        <VStack spacing={6} mb={8}>
-          <Heading as="h4" size="sm" color="whiteAlpha.700" textAlign="center">
-            Built With
-          </Heading>
-          <HStack spacing={12} justify="center" flexWrap="wrap">
-            {techStack.map((tech) => (
-              <VStack
-                key={tech.name}
-                spacing={2}
-                opacity={0.7}
-                _hover={{ opacity: 1, transform: 'translateY(-5px)' }}
-                transition="all 0.3s"
-                cursor="pointer"
-              >
-                <Icon as={tech.icon} boxSize={8} color={tech.color} />
-                <Text fontSize="xs" color="whiteAlpha.700">
-                  {tech.name}
-                </Text>
-              </VStack>
-            ))}
-          </HStack>
-        </VStack>
-
-        <Divider borderColor="whiteAlpha.300" my={8} />
-
-        {/* Bottom Section */}
+        {/* ── Bottom bar ────────────────────────────────────────── */}
         <Flex
           direction={{ base: 'column', md: 'row' }}
           justify="space-between"
           align="center"
           gap={4}
+          pt={5}
         >
-          <HStack spacing={2} fontSize="sm" color="whiteAlpha.700">
+          {/* Copyright */}
+          <HStack spacing={1.5} color="whiteAlpha.400" fontSize="xs">
             <Text>&copy; {new Date().getFullYear()} Debarun Ghosh.</Text>
             <Text>All rights reserved.</Text>
-            <Icon as={FaHeart} color="red.400" boxSize={3} />
+            <Icon as={FaHeart} color="red.400" boxSize={2.5} />
           </HStack>
 
-          <Text fontSize="sm" color="whiteAlpha.700" textAlign="center">
-            Designed & Developed by <Text as="span" color="brand.400" fontWeight="bold">Debarun Ghosh</Text>
-          </Text>
+          {/* Built with — small inline icons */}
+          <HStack spacing={3} color="whiteAlpha.400" fontSize="xs">
+            <Text letterSpacing="0.05em">Built with</Text>
+            {techStack.map((t, i) => (
+              <HStack key={t.name} spacing={1}>
+                <Icon as={t.icon} boxSize={3} color={t.color} />
+                <Text color="whiteAlpha.500">{t.name}</Text>
+                {i < techStack.length - 1 && (
+                  <Text color="whiteAlpha.200">·</Text>
+                )}
+              </HStack>
+            ))}
+          </HStack>
 
+          {/* Back to top */}
           <Button
-            size="sm"
+            size="xs"
             variant="ghost"
-            color="whiteAlpha.700"
+            color="whiteAlpha.500"
             rightIcon={<FaArrowUp />}
             onClick={scrollToTop}
-            _hover={{ color: 'white', bg: 'whiteAlpha.200' }}
+            _hover={{ color: 'white', bg: 'whiteAlpha.100' }}
+            fontSize="xs"
           >
             Back to Top
           </Button>
         </Flex>
       </Container>
 
-      {/* Privacy Policy Modal */}
       <PrivacyPolicy isOpen={isOpen} onClose={onClose} />
     </Box>
   );
