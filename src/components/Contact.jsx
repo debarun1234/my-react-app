@@ -89,7 +89,7 @@ const Contact = () => {
   const contactItems = [
     { icon: FaEnvelope, label: 'Email', value: 'debarunghosh2026@yahoo.com', href: 'mailto:debarunghosh2026@yahoo.com', color: 'brand.400' },
     { icon: FaMapMarkerAlt, label: 'Location', value: 'Bangalore, Karnataka', href: null, color: 'purple.400' },
-    { icon: FaLinkedin, label: 'LinkedIn', value: 'linkedin.com/in/debarun-ghosh', href: 'https://linkedin.com/in/debarun-ghosh', color: 'blue.400' },
+    { icon: FaLinkedin, label: 'LinkedIn', value: 'linkedin.com/in/debarunghosh2024', href: 'https://linkedin.com/in/debarunghosh2024', color: 'blue.400' },
     { icon: FaGithub, label: 'GitHub', value: 'github.com/debarun1234', href: 'https://github.com/debarun1234', color: 'whiteAlpha.800' },
   ];
 
