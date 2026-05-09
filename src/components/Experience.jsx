@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Box,
   Container,
@@ -22,13 +22,68 @@ import {
   Icon,
   useToast,
 } from '@chakra-ui/react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { FaBriefcase, FaCalendar, FaFileAlt } from 'react-icons/fa';
 import ANZLogo from '../assets/anz-logo.svg';
 import DOM4ULogo from '../assets/dom4u_logo.jpeg';
 import MphasisLogo from '../assets/mphasis-logo (1).png';
 import dom4uCertificate from '../assets/DOM4U_Internship_Certificate_Debarun.pdf';
 import mphasisCertificate from '../assets/Debarun_Ghosh_Internship_Letter.pdf';
+
+// Timeline: May 2023 → Dec 2027 (55 months).
+// toExpPct(year, month) = ((year-2023)*12 + (month-5)) / 55 * 100
+const EXP_TOTAL_MONTHS = 55;
+const toExpPct = (year, month) =>
+  Math.max(0, Math.min(100, ((year - 2023) * 12 + (month - 5)) / EXP_TOTAL_MONTHS * 100));
+
+const EXP_YEAR_MARKS = [
+  { year: 2024, pct: 14.5 },
+  { year: 2025, pct: 36.4 },
+  { year: 2026, pct: 58.2 },
+  { year: 2027, pct: 80.0 },
+];
+
+const buildExpTimelineBars = () => {
+  const now = new Date();
+  const currentPct = toExpPct(now.getFullYear(), now.getMonth() + 1);
+  const anzStart = 21.8; // May 2024
+  const anzSolidEnd = Math.min(Math.max(anzStart, currentPct), 100);
+
+  return [
+    {
+      label: 'Mphasis',
+      colorToken: 'accent.500',
+      cssVar: 'accent-500',
+      startPct: 0,
+      solidEndPct: 3.6,   // Jul 2023
+      dottedEndPct: null,
+      dateRange: 'May – Jul 2023',
+      isActive: false,
+    },
+    {
+      label: 'DOM4U',
+      colorToken: 'purple.400',
+      cssVar: 'purple-400',
+      startPct: 12.7,     // Dec 2023
+      solidEndPct: 20.0,  // Apr 2024
+      dottedEndPct: null,
+      dateRange: 'Dec 2023 – Apr 2024',
+      isActive: false,
+    },
+    {
+      label: 'ANZ',
+      colorToken: 'blue.400',
+      cssVar: 'blue-400',
+      startPct: anzStart,
+      solidEndPct: anzSolidEnd,
+      dottedEndPct: 100,
+      dateRange: 'May 2024 – Present',
+      isActive: true,
+    },
+  ];
+};
+
+const EXP_TIMELINE_BARS = buildExpTimelineBars();
 
 const experiences = [
   {
@@ -81,6 +136,8 @@ const MotionBox = motion(Box);
 const Experience = () => {
   const cardBg = 'rgba(255, 255, 255, 0.05)';
   const textColor = 'white';
+  const timelineRef = useRef(null);
+  const isTimelineInView = useInView(timelineRef, { once: false, amount: 0.4 });
   const [selectedExperience, setSelectedExperience] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -156,6 +213,227 @@ const Experience = () => {
             My journey through innovative technology companies
           </Text>
         </VStack>
+
+        {/* Career Timeline */}
+        <Box
+          ref={timelineRef}
+          mb={12}
+          bg="whiteAlpha.50"
+          borderRadius="2xl"
+          px={6}
+          pt={5}
+          pb={5}
+          border="1px solid"
+          borderColor="whiteAlpha.100"
+          backdropFilter="blur(10px)"
+        >
+          <HStack mb={6} spacing={2}>
+            <Box w="2px" h="14px" bg="brand.400" borderRadius="full" />
+            <Text fontSize="10px" color="whiteAlpha.500" textTransform="uppercase" letterSpacing="widest" fontWeight="600">
+              Career Timeline
+            </Text>
+          </HStack>
+
+          <Box pl="72px" position="relative">
+            {/* Glow bars */}
+            <VStack spacing={6} align="stretch" mb={4}>
+              {EXP_TIMELINE_BARS.map((bar, barIdx) => (
+                <Box key={bar.label} position="relative">
+                  {/* Date range label above bar */}
+                  <Text
+                    position="absolute"
+                    left={`${(bar.startPct + (bar.dottedEndPct ?? bar.solidEndPct)) / 2}%`}
+                    top="-15px"
+                    transform="translateX(-50%)"
+                    fontSize="9px"
+                    color="whiteAlpha.400"
+                    whiteSpace="nowrap"
+                    userSelect="none"
+                  >
+                    {bar.dateRange}
+                  </Text>
+
+                  {/* Company label on left */}
+                  <Text
+                    position="absolute"
+                    left="-72px"
+                    top="50%"
+                    transform="translateY(-50%)"
+                    fontSize="xs"
+                    fontWeight="700"
+                    w="64px"
+                    textAlign="right"
+                    color={bar.colorToken}
+                  >
+                    {bar.label}
+                  </Text>
+
+                  {/* Thin rail track */}
+                  <Box
+                    w="full"
+                    h="2px"
+                    bg="whiteAlpha.80"
+                    borderRadius="full"
+                    position="absolute"
+                    top="50%"
+                    transform="translateY(-50%)"
+                  />
+
+                  {/* Bar area */}
+                  <Box h="10px" position="relative" overflow="visible">
+                    {/* Animated glow pill */}
+                    <MotionBox
+                      position="absolute"
+                      left={`${bar.startPct}%`}
+                      h="full"
+                      borderLeftRadius="full"
+                      borderRightRadius="0"
+                      minW="4px"
+                      style={{
+                        backgroundImage: `linear-gradient(90deg,
+                          var(--chakra-colors-${bar.cssVar}) 0%,
+                          var(--chakra-colors-${bar.cssVar}) 55%,
+                          rgba(255,255,255,0.45) 78%,
+                          var(--chakra-colors-${bar.cssVar}) 100%)`,
+                      }}
+                      initial={{ width: 0 }}
+                      animate={
+                        isTimelineInView
+                          ? bar.isActive
+                            ? {
+                                width: `${bar.solidEndPct - bar.startPct}%`,
+                                boxShadow: [
+                                  `0 0 4px var(--chakra-colors-${bar.cssVar}), 0 0 10px var(--chakra-colors-${bar.cssVar})`,
+                                  `0 0 10px var(--chakra-colors-${bar.cssVar}), 0 0 22px var(--chakra-colors-${bar.cssVar})`,
+                                  `0 0 4px var(--chakra-colors-${bar.cssVar}), 0 0 10px var(--chakra-colors-${bar.cssVar})`,
+                                ],
+                              }
+                            : {
+                                width: `${bar.solidEndPct - bar.startPct}%`,
+                                boxShadow: `0 0 5px var(--chakra-colors-${bar.cssVar})`,
+                              }
+                          : { width: 0 }
+                      }
+                      transition={
+                        bar.isActive
+                          ? {
+                              width: { duration: 0.85, ease: 'easeOut', delay: barIdx * 0.9 },
+                              boxShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut', delay: barIdx * 0.9 + 0.85 },
+                            }
+                          : { duration: 0.85, ease: 'easeOut', delay: barIdx * 0.9 }
+                      }
+                    />
+
+                    {/* Dashed future tail */}
+                    {bar.dottedEndPct && (
+                      <Box
+                        position="absolute"
+                        left={`${bar.solidEndPct}%`}
+                        w={`${bar.dottedEndPct - bar.solidEndPct}%`}
+                        h="5px"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        style={{
+                          backgroundImage: `repeating-linear-gradient(90deg, var(--chakra-colors-${bar.cssVar}) 0px, var(--chakra-colors-${bar.cssVar}) 7px, transparent 7px, transparent 14px)`,
+                          opacity: 0.35,
+                        }}
+                      />
+                    )}
+
+                    {/* Pulsing live dot — positioned right at the flat right edge of the solid bar */}
+                    {bar.isActive && (
+                      <>
+                        <MotionBox
+                          position="absolute"
+                          left={`${bar.solidEndPct}%`}
+                          top="50%"
+                          transform="translate(-50%, -50%)"
+                          w="14px"
+                          h="14px"
+                          borderRadius="full"
+                          border="1.5px solid"
+                          borderColor={bar.colorToken}
+                          animate={{ scale: [1, 2.2, 1], opacity: [0.7, 0, 0.7] }}
+                          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+                        />
+                        <Box
+                          position="absolute"
+                          left={`${bar.solidEndPct}%`}
+                          top="50%"
+                          transform="translate(-50%, -50%)"
+                          w="7px"
+                          h="7px"
+                          borderRadius="full"
+                          bg={bar.colorToken}
+                          border="1.5px solid"
+                          borderColor="gray.900"
+                          zIndex={2}
+                        />
+                      </>
+                    )}
+
+                    {/* Static endpoint dot for completed roles */}
+                    {!bar.isActive && (
+                      <Box
+                        position="absolute"
+                        left={`${bar.solidEndPct}%`}
+                        top="50%"
+                        transform="translate(-50%, -50%)"
+                        w="7px"
+                        h="7px"
+                        borderRadius="full"
+                        bg={bar.colorToken}
+                        border="1.5px solid"
+                        borderColor="gray.900"
+                        zIndex={2}
+                      />
+                    )}
+                  </Box>
+                </Box>
+              ))}
+            </VStack>
+
+            {/* Year marks at bottom with tick lines */}
+            {(() => {
+              const currentYear = new Date().getFullYear();
+              return (
+                <Box position="relative" h="22px">
+                  {EXP_YEAR_MARKS.map(({ year, pct }) => {
+                    const isCurrent = year === currentYear;
+                    return (
+                      <Box
+                        key={year}
+                        position="absolute"
+                        left={`${pct}%`}
+                        transform="translateX(-50%)"
+                        textAlign="center"
+                      >
+                        <Box
+                          w={isCurrent ? "1.5px" : "1px"}
+                          h={isCurrent ? "8px" : "5px"}
+                          bg={isCurrent ? "white" : "whiteAlpha.200"}
+                          mx="auto"
+                          mb="2px"
+                          style={isCurrent ? { boxShadow: '0 0 6px white' } : {}}
+                        />
+                        <Text
+                          fontSize="10px"
+                          color={isCurrent ? "white" : "whiteAlpha.300"}
+                          fontWeight={isCurrent ? "700" : "400"}
+                          letterSpacing="tight"
+                          userSelect="none"
+                          style={isCurrent ? { textShadow: '0 0 8px white, 0 0 16px rgba(255,255,255,0.5)' } : {}}
+                        >
+                          {year}
+                        </Text>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              );
+            })()}
+          </Box>
+        </Box>
 
         {/* Experience Cards */}
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>

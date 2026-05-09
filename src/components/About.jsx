@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -7,56 +7,76 @@ import {
   VStack,
   HStack,
   Grid,
-  GridItem,
+  Flex,
   Card,
   CardBody,
   Icon,
-  Stat,
-  StatLabel,
-  StatNumber,
-  useColorModeValue,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-import { 
-  FaGraduationCap, 
-  FaBrain, 
-  FaCode, 
-  FaUsers, 
+import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
+import {
+  FaGraduationCap,
+  FaBrain,
+  FaCode,
+  FaUsers,
   FaTrophy,
-  FaLightbulb 
+  FaLightbulb
 } from 'react-icons/fa';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
+const MotionSpan = motion.span;
+
+const Counter = ({ to, suffix }) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, v => Math.round(v));
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: false, amount: 0.5 });
+
+  useEffect(() => {
+    if (inView) {
+      const ctrl = animate(count, to, { duration: 1.6, ease: 'easeOut' });
+      return ctrl.stop;
+    } else {
+      count.set(0);
+    }
+  }, [inView, to, count]);
+
+  return (
+    <Box as="span" ref={ref}>
+      <MotionSpan>{rounded}</MotionSpan>{suffix}
+    </Box>
+  );
+};
 
 const About = () => {
   const cardBg = 'rgba(255, 255, 255, 0.05)';
   const textColor = 'white';
   const accentColor = 'brand.300';
+  // cardBg/accentColor used by highlight cards below
 
   const stats = [
-    { label: 'Years Experience', number: '2+', icon: FaTrophy },
-    { label: 'Projects Completed', number: '15+', icon: FaCode },
-    { label: 'Technologies', number: '20+', icon: FaBrain },
-    { label: 'Collaborations', number: '10+', icon: FaUsers },
+    { label: 'Years Experience',  to: 3,  suffix: '+', icon: FaTrophy, color: '#ECC94B' },
+    { label: 'Projects Completed',to: 15, suffix: '+', icon: FaCode,   color: '#4299E1' },
+    { label: 'Technologies',      to: 20, suffix: '+', icon: FaBrain,  color: '#9F7AEA' },
+    { label: 'Collaborations',    to: 10, suffix: '+', icon: FaUsers,  color: '#48BB78' },
   ];
 
   const highlights = [
     {
-      title: 'Education Excellence',
-      description: 'Graduate in Electronics & Communications (2024) with Postgraduate specialization in Applied Generative AI from Purdue University',
+      title: 'Education & Research',
+      description: 'B.Tech in ECE (REVA, 2024) · PG in Applied Generative AI (Purdue, 2024) · Currently pursuing M.Tech in Data Science & AI at IIIT Dharwad — 1 year of academic AI research feeding directly into production work.',
       icon: FaGraduationCap,
       color: 'blue.400',
     },
     {
-      title: 'AI/ML Expertise',
-      description: 'Strong foundation in AI and ML through hands-on projects, internships, and advanced coursework in cutting-edge technologies',
+      title: 'LLMOps & RAG Systems',
+      description: 'Architecting production-grade RAG pipelines on GCP Vertex AI with LangChain and LlamaIndex. Deep expertise in LLMOps, agentic workflows, and custom DSL engines that bridge stochastic AI with deterministic business logic.',
       icon: FaBrain,
       color: 'purple.400',
     },
     {
-      title: 'Innovation Focus',
-      description: 'Passionate about leveraging AI/ML to create scalable solutions for banking, research, and technology industries',
+      title: 'Cloud & System Design',
+      description: 'End-to-end ownership from Python orchestration to zero-trust, Terraform-provisioned deployments with automated CI/CD. Proven track record delivering high-availability AI solutions for global financial platforms.',
       icon: FaLightbulb,
       color: 'yellow.400',
     },
@@ -89,45 +109,85 @@ const About = () => {
             </Heading>
           </MotionBox>
 
-          {/* Stats Grid */}
+          {/* Stats Strip */}
           <MotionBox
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            viewport={{ once: false, amount: 0.4 }}
             w="full"
           >
-            <Grid templateColumns={{ base: '1fr 1fr', md: 'repeat(4, 1fr)' }} gap={6} mb={16}>
-              {stats.map((stat, index) => (
-                <GridItem key={index}>
-                  <MotionCard
-                    variant="elevated"
-                    bg={cardBg}
-                    backdropFilter="blur(10px)"
-                    border="1px solid"
-                    borderColor="whiteAlpha.200"
-                    whileHover={{ y: -5, scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
+            <Flex
+              justify="center"
+              align="center"
+              flexWrap={{ base: 'wrap', md: 'nowrap' }}
+              gap={{ base: 8, md: 0 }}
+              mb={14}
+              px={4}
+            >
+              {stats.map((stat, i) => (
+                <React.Fragment key={i}>
+                  <MotionBox
+                    textAlign="center"
+                    px={{ base: 6, md: 12 }}
+                    whileHover={{ y: -3 }}
+                    transition={{ duration: 0.2 }}
+                    position="relative"
                   >
-                    <CardBody textAlign="center" py={8}>
-                      <Icon as={stat.icon} boxSize={8} color={accentColor} mb={4} />
-                      <Stat>
-                        <StatNumber 
-                          fontSize="2xl" 
-                          fontWeight="bold" 
-                          color={textColor}
-                        >
-                          {stat.number}
-                        </StatNumber>
-                        <StatLabel color="whiteAlpha.700" fontSize="sm">
-                          {stat.label}
-                        </StatLabel>
-                      </Stat>
-                    </CardBody>
-                  </MotionCard>
-                </GridItem>
+                    {/* Icon */}
+                    <Icon
+                      as={stat.icon}
+                      boxSize={4}
+                      color={stat.color}
+                      mb={2}
+                      opacity={0.8}
+                    />
+                    {/* Number */}
+                    <Text
+                      fontSize={{ base: '4xl', md: '5xl' }}
+                      fontWeight="900"
+                      lineHeight="1"
+                      color={stat.color}
+                      mb={2}
+                      letterSpacing="-1px"
+                    >
+                      <Counter to={stat.to} suffix={stat.suffix} />
+                    </Text>
+                    {/* Accent underline */}
+                    <Box
+                      h="2px"
+                      w="32px"
+                      bg={stat.color}
+                      borderRadius="full"
+                      mx="auto"
+                      mb={2}
+                      opacity={0.5}
+                    />
+                    {/* Label */}
+                    <Text
+                      fontSize="10px"
+                      color="whiteAlpha.500"
+                      textTransform="uppercase"
+                      letterSpacing="0.14em"
+                      fontWeight="600"
+                    >
+                      {stat.label}
+                    </Text>
+                  </MotionBox>
+
+                  {/* Divider */}
+                  {i < stats.length - 1 && (
+                    <Box
+                      display={{ base: 'none', md: 'block' }}
+                      w="1px"
+                      h="56px"
+                      bg="whiteAlpha.150"
+                      flexShrink={0}
+                    />
+                  )}
+                </React.Fragment>
               ))}
-            </Grid>
+            </Flex>
           </MotionBox>
 
           {/* Main Content */}
@@ -147,20 +207,23 @@ const About = () => {
                 maxW="4xl"
                 mx="auto"
               >
-                I am a graduate in{' '}
+                Generative AI Engineer with{' '}
                 <Text as="span" color={accentColor} fontWeight="bold">
-                  Electronics and Communications
+                  3+ years of applied AI experience
                 </Text>{' '}
-                (2024), with a{' '}
+                — 2 years of full-time engineering and 1 year of active research — combining deep expertise in{' '}
                 <Text as="span" color={accentColor} fontWeight="bold">
-                  Postgraduate Program specialization in Applied Generative AI
-                </Text>{' '}
-                from{' '}
-                <Text as="span" color={accentColor} fontWeight="bold">
-                  Purdue University
+                  LLMOps, scalable cloud infrastructure, and agentic workflows
                 </Text>
-                . I have developed a strong foundation in artificial intelligence and machine learning 
-                through hands-on projects, internships, and advanced coursework.
+                . Currently pursuing an M.Tech in Data Science & AI at{' '}
+                <Text as="span" color={accentColor} fontWeight="bold">
+                  IIIT Dharwad
+                </Text>{' '}
+                while building production-grade AI systems at{' '}
+                <Text as="span" color={accentColor} fontWeight="bold">
+                  ANZ
+                </Text>
+                .
               </Text>
 
               {/* Highlight Cards */}
@@ -206,13 +269,20 @@ const About = () => {
                 mx="auto"
                 mt={8}
               >
-                Throughout my academic and professional journey, I have gained expertise in developing 
-                AI-powered solutions for improving operational efficiency, automating complex tasks, 
-                and enhancing decision-making processes. I specialize in{' '}
+                Proven ability to lead cross-functional technical initiatives and translate complex
+                requirements into high-availability systems. Top skills:{' '}
                 <Text as="span" color={accentColor} fontWeight="bold">
-                  NLP, Computer Vision, and Deep Learning
-                </Text>{' '}
-                across various real-world applications in banking, research, and technology.
+                  LLMOps
+                </Text>
+                ,{' '}
+                <Text as="span" color={accentColor} fontWeight="bold">
+                  Retrieval-Augmented Generation (RAG)
+                </Text>
+                , and{' '}
+                <Text as="span" color={accentColor} fontWeight="bold">
+                  Natural Language Processing (NLP)
+                </Text>
+                {' '}— applied across banking, research, and global financial platforms.
               </Text>
             </VStack>
           </MotionBox>
